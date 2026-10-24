@@ -1009,6 +1009,114 @@
       line-height: 1.55;
     }
 
+    /* Section 2 Header Typography matching Wabi and Section 1 */
+    #sec-multiplayer .sec-header {
+      max-width: 720px;
+      margin: 0 auto clamp(36px, 5vh, 52px);
+      text-align: center;
+    }
+
+    #sec-multiplayer .sec-title {
+      font-family: var(--face-serif);
+      font-weight: 400;
+      font-size: clamp(36px, 9vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      max-width: 720px;
+      margin: 0 auto 18px;
+      text-wrap: balance;
+    }
+
+    #sec-multiplayer .sec-title .title-line {
+      display: block;
+    }
+
+    @media (min-width: 640px) {
+      #sec-multiplayer .sec-title .title-line {
+        white-space: nowrap;
+      }
+    }
+
+    #sec-multiplayer .sec-desc {
+      font-family: var(--face-sans);
+      font-size: clamp(16px, 3.8vw, 20px);
+      line-height: 1.55;
+      letter-spacing: -0.012em;
+      color: var(--ink-70);
+      max-width: 720px;
+      margin: 0 auto;
+      text-wrap: balance;
+    }
+
+    /* Section 2 Phone Stage (Middle Alignment & Copied Phone Screen) */
+    .plate--phone-stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      padding: clamp(20px, 4vw, 56px);
+    }
+
+    .phone--stage {
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+      filter: none !important;
+      opacity: 1 !important;
+      z-index: 5 !important;
+      margin: 0 auto !important;
+      width: var(--phone-w);
+      height: var(--phone-h);
+      max-width: 100%;
+      cursor: default;
+    }
+
+    .phone--stage .phone-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .phone-chat-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      margin-top: 6px;
+      margin-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(21, 122, 118, 0.35) transparent;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .phone-chat-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .phone-chat-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .phone-chat-scroll::-webkit-scrollbar-thumb {
+      background: rgba(21, 122, 118, 0.35);
+      border-radius: 999vw;
+    }
+
+    .phone-chat-scroll .chat-bubble {
+      max-width: 100%;
+      padding: clamp(10px, 1.8vw, 14px) clamp(10px, 2vw, 16px);
+      box-sizing: border-box;
+    }
+
     /* Story Plates / Mockup Display */
     .plate {
       position: relative;
@@ -1751,93 +1859,125 @@
     <!-- ── 2. SHOWCASE BEATS (.show-rail) ──────────────────────────────── -->
     <div class="show-rail">
 
-      <!-- BEAT 1: Multiplayer Collaboration -->
+      <!-- BEAT 1: Bookkeeping at the Speed of Speech -->
       <section id="sec-multiplayer" class="sec">
         <div class="sec-header">
-          <span class="sec-tag">Multiplayer Commerce</span>
-          <h2 class="sec-title">Your group chat should do more than talk</h2>
-          <p class="sec-desc">Log the sale. Check the stock. Turn the voice note into a game and a balanced book. All in
-            one place.</p>
+          <h2 class="sec-title">
+            <span class="title-line">Bookkeeping that happens</span>
+            <span class="title-line">at the speed of speech.</span>
+          </h2>
+          <p class="sec-desc">Record the bread. Count the milk. Get a warning before the water finishes. All with voicenotes.</p>
         </div>
 
-        <div class="plate">
-          <div class="chat-sim">
+        <div class="plate plate--phone-stage">
+          <!-- Standalone 3D Glass Phone Screen matching Section 1, Middle-Aligned -->
+          <div class="phone phone--stage pos-center is-active" aria-hidden="false" aria-label="Bookkeeping WhatsApp voice ledger screen">
+            <div class="phone-screen">
+              <div style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+                <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
 
-            <!-- Outgoing Note -->
-            <div class="chat-bubble chat-bubble--out">
-              <div class="vn-row">
-                <button class="vn-play-btn" onclick="toggleWaveAnim(this)" aria-label="Play voice note">▶</button>
-                <div class="vn-waves">
-                  <span class="vn-bar" style="height: 6px;"></span>
-                  <span class="vn-bar" style="height: 14px;"></span>
-                  <span class="vn-bar" style="height: 20px;"></span>
-                  <span class="vn-bar" style="height: 10px;"></span>
-                  <span class="vn-bar" style="height: 22px;"></span>
-                  <span class="vn-bar" style="height: 16px;"></span>
-                  <span class="vn-bar" style="height: 8px;"></span>
-                  <span class="vn-bar" style="height: 18px;"></span>
-                  <span class="vn-bar" style="height: 12px;"></span>
-                </div>
-                <span style="font-size: 11px; font-family: monospace; color: #555;">0:04</span>
-              </div>
-              <div style="font-size: 12px; font-style: italic; margin-top: 8px; color: #2E7D32;">
-                “I don sell two bread to Mr. Akpan, e pay five thousand naira”
-              </div>
-            </div>
-
-            <!-- Incoming Response from Yauwa AI -->
-            <div class="chat-bubble chat-bubble--in">
-              <div
-                style="display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--teal); margin-bottom: 6px;">
-                <span style="display: flex; align-items: center; gap: 4px;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                <!-- Feature Badge -->
+                <div class="phone-badge phone-badge--teal">
+                  <svg class="phone-favicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <polyline points="20 6 9 17 4 12" />
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                    <line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="8" y1="23" x2="16" y2="23" />
                   </svg>
-                  <span>YAUWA LEDGER BOT</span>
-                </span>
-                <span style="color: #999; font-weight: normal;">• 10:41 AM</span>
+                  <span>WhatsApp Voice Ledger</span>
+                </div>
+
+                <div class="phone-status-bar">
+                  <span>10:41</span>
+                  <span style="display: flex; align-items: center; gap: 4px;"><span>5G</span><span>● 94%</span></span>
+                </div>
+
+                <!-- Scrollable Inner Chat Content / Placeholders -->
+                <div class="chat-sim phone-chat-scroll">
+
+                  <!-- Outgoing Note -->
+                  <div class="chat-bubble chat-bubble--out">
+                    <div class="vn-row">
+                      <button class="vn-play-btn" onclick="toggleWaveAnim(this)" aria-label="Play voice note">▶</button>
+                      <div class="vn-waves">
+                        <span class="vn-bar" style="height: 6px;"></span>
+                        <span class="vn-bar" style="height: 14px;"></span>
+                        <span class="vn-bar" style="height: 20px;"></span>
+                        <span class="vn-bar" style="height: 10px;"></span>
+                        <span class="vn-bar" style="height: 22px;"></span>
+                        <span class="vn-bar" style="height: 16px;"></span>
+                        <span class="vn-bar" style="height: 8px;"></span>
+                        <span class="vn-bar" style="height: 18px;"></span>
+                        <span class="vn-bar" style="height: 12px;"></span>
+                      </div>
+                      <span style="font-size: 11px; font-family: monospace; color: #555;">0:04</span>
+                    </div>
+                    <div style="font-size: 12px; font-style: italic; margin-top: 8px; color: #2E7D32;">
+                      “I don sell two bread to Mr. Akpan, e pay five thousand naira”
+                    </div>
+                  </div>
+
+                  <!-- Incoming Response from Yauwa AI -->
+                  <div class="chat-bubble chat-bubble--in">
+                    <div
+                      style="display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--teal); margin-bottom: 6px;">
+                      <span style="display: flex; align-items: center; gap: 4px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        <span>YAUWA LEDGER BOT</span>
+                      </span>
+                      <span style="color: #999; font-weight: normal;">• 10:41 AM</span>
+                    </div>
+
+                    <div
+                      style="background: rgba(21, 122, 118, 0.08); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
+                      <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 13px;">
+                        <span>2 Sliced Bread</span>
+                        <span style="color: var(--teal); font-weight: 700;">₦5,000</span>
+                      </div>
+                      <div style="font-size: 11px; color: #666; margin-top: 2px;">
+                        Inventory count remaining: <strong style="color: #B45309;">3 loaves</strong>
+                      </div>
+                    </div>
+
+                    <div class="vn-row">
+                      <button class="vn-play-btn" onclick="toggleWaveAnim(this)" aria-label="Play confirmation">▶</button>
+                      <div style="font-size: 12px; color: #444; font-style: italic;">
+                        “Two bread enter your book. Five thousand naira tallied.”
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Interactive Group Poll / Alert -->
+                  <div class="chat-bubble chat-bubble--in" style="background: #FFFDF9; border-color: rgba(234, 179, 8, 0.4);">
+                    <div
+                      style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; margin-bottom: 8px;">
+                      <span style="color: var(--gold-dark); display: flex; align-items: center; gap: 5px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+                          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                        <span>Market Restock Consensus</span>
+                      </span>
+                      <span style="color: #777;">3 Votes</span>
+                    </div>
+                    <div style="font-size: 12px; margin-bottom: 6px;">Who is picking up bread from the bakery tomorrow?</div>
+                    <div
+                      style="background: rgba(0,0,0,0.04); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 4px;">
+                      <div style="width: 75%; height: 100%; background: var(--teal);"></div>
+                    </div>
+                    <div style="font-size: 10px; color: #888;">Mallam Idris (75%) • Amina (25%)</div>
+                  </div>
+
+                </div>
               </div>
 
-              <div
-                style="background: rgba(21, 122, 118, 0.08); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 13px;">
-                  <span>2 Sliced Bread</span>
-                  <span style="color: var(--teal); font-weight: 700;">₦5,000</span>
-                </div>
-                <div style="font-size: 11px; color: #666; margin-top: 2px;">
-                  Inventory count remaining: <strong style="color: #B45309;">3 loaves</strong>
-                </div>
-              </div>
-
-              <div class="vn-row">
-                <button class="vn-play-btn" onclick="toggleWaveAnim(this)" aria-label="Play confirmation">▶</button>
-                <div style="font-size: 12px; color: #444; font-style: italic;">
-                  “Two bread enter your book. Five thousand naira tallied.”
-                </div>
+              <div>
+                <div class="phone-home-bar"></div>
               </div>
             </div>
-
-            <!-- Interactive Group Poll / Alert -->
-            <div class="chat-bubble chat-bubble--in" style="background: #FFFDF9; border-color: rgba(234, 179, 8, 0.4);">
-              <div
-                style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; margin-bottom: 8px;">
-                <span style="color: var(--gold-dark); display: flex; align-items: center; gap: 5px;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                  </svg>
-                  <span>Market Restock Consensus</span>
-                </span>
-                <span style="color: #777;">3 Votes</span>
-              </div>
-              <div style="font-size: 12px; margin-bottom: 6px;">Who is picking up bread from the bakery tomorrow?</div>
-              <div
-                style="background: rgba(0,0,0,0.04); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 4px;">
-                <div style="width: 75%; height: 100%; background: var(--teal);"></div>
-              </div>
-              <div style="font-size: 10px; color: #888;">Mallam Idris (75%) • Amina (25%)</div>
-            </div>
-
           </div>
         </div>
       </section>
