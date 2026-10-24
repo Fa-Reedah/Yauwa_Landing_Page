@@ -805,31 +805,43 @@
       filter: blur(9px);
     }
 
-    /* ── Hover Interactivity on Inactive Subsequent Screens ──────── */
+    /* ── Hover: When NOT hovering a placeholder, it stays blurry. When hovering, it is brought to the top and becomes completely CLEAR ──────── */
     @media (hover: hover) and (pointer: fine) {
-      .phone:not(.is-active):hover {
-        opacity: 0.92 !important;
-        filter: blur(1.5px) !important;
-        z-index: 8 !important;
+      /* Any hovered phone: crystal clear, fully opaque, brought to the very top */
+      .mockup-container .phone:hover {
+        filter: none !important;
+        opacity: 1 !important;
+        z-index: 50 !important;
         box-shadow:
-          0 32px 70px -10px rgba(0, 0, 0, 0.2),
-          0 16px 32px -6px rgba(0, 0, 0, 0.12),
-          0 0 0 1.5px rgba(21, 122, 118, 0.35) !important;
+          0 46px 110px -15px rgba(21, 122, 118, 0.28),
+          0 22px 50px -8px rgba(0, 0, 0, 0.18),
+          0 0 0 1.5px rgba(21, 122, 118, 0.4),
+          inset 0 2px 5px rgba(255, 255, 255, 1),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.06),
+          inset 2px 0 4px rgba(255, 255, 255, 0.8),
+          inset -2px 0 4px rgba(255, 255, 255, 0.6) !important;
       }
 
-      .phone.pos-right:not(.is-active):hover,
-      .phone--right:not(.is-active):not(.pos-left):not(.pos-back):not(.pos-center):hover {
-        transform: translateX(calc(-50% + (var(--phone-offset) * 0.94))) translateY(clamp(6px, 1.8vw, 20px)) rotate(3.5deg) scale(0.93) !important;
+      /* When hovering any phone in the container, all sibling phones that are NOT hovered stay blurry */
+      .mockup-container:has(.phone:hover) .phone:not(:hover) {
+        filter: blur(8px) !important;
+        opacity: 0.45 !important;
       }
 
-      .phone.pos-left:not(.is-active):hover,
-      .phone--left:not(.is-active):not(.pos-right):not(.pos-back):not(.pos-center):hover {
-        transform: translateX(calc(-50% - (var(--phone-offset) * 0.94))) translateY(clamp(6px, 1.8vw, 20px)) rotate(-3.5deg) scale(0.93) !important;
+      .mockup-container .phone.pos-center:hover {
+        transform: translateX(-50%) translateY(-6px) scale(1.02) rotate(0deg) !important;
       }
 
-      .phone.pos-back:not(.is-active):hover,
-      .phone--back:not(.is-active):not(.pos-right):not(.pos-left):not(.pos-center):hover {
-        transform: translateX(calc(-50% + clamp(8px, 2.5vw, 42px))) translateY(calc(clamp(8px, 2vw, 24px) * -1.3)) rotate(1.5deg) scale(0.89) !important;
+      .mockup-container .phone.pos-right:hover {
+        transform: translateX(calc(-50% + (var(--phone-offset) * 0.92))) translateY(clamp(4px, 1.2vw, 14px)) scale(0.96) rotate(3deg) !important;
+      }
+
+      .mockup-container .phone.pos-left:hover {
+        transform: translateX(calc(-50% - (var(--phone-offset) * 0.92))) translateY(clamp(4px, 1.2vw, 14px)) scale(0.96) rotate(-3deg) !important;
+      }
+
+      .mockup-container .phone.pos-back:hover {
+        transform: translateX(calc(-50% + clamp(8px, 2.5vw, 36px))) translateY(calc(clamp(8px, 2vw, 24px) * -1.5)) scale(0.92) rotate(1deg) !important;
       }
     }
 
@@ -1019,11 +1031,11 @@
     }
 
     #sec-multiplayer .sec-title {
-      font-family: var(--face);
-      font-weight: 500;
-      font-size: clamp(36px, 9vw, 64px);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
+      font-family: var(--face-serif);
+      font-weight: 450;
+      font-size: clamp(36px, 9vw, 55.55px);
+      line-height: -1;
+      letter-spacing: -.01em;
       color: var(--ink);
       max-width: 720px;
       margin: 0 auto 18px;
@@ -1042,11 +1054,11 @@
 
     #sec-multiplayer .sec-desc {
       font-family: var(--face);
-      font-weight: 400;
+      font-weight: 550;
       font-size: clamp(16px, 3.8vw, 20px);
       line-height: 1.55;
       letter-spacing: -0.012em;
-      color: var(--ink-70);
+      color: var(--grey-500);
       max-width: 720px;
       margin: 0 auto;
       text-wrap: balance;
@@ -1128,20 +1140,6 @@
       max-width: 100%;
       padding: clamp(10px, 1.8vw, 14px) clamp(10px, 2vw, 16px);
       box-sizing: border-box;
-    }
-
-    /* Story Plates / Mockup Display */
-    .plate {
-      position: relative;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      border-radius: 36px;
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 1);
-      -webkit-backdrop-filter: blur(24px);
-      backdrop-filter: blur(24px);
-      overflow: hidden;
-      padding: clamp(24px, 4vw, 56px);
     }
 
     /* ── Interactive Chat Demo in Plate 1 ─────────────────────────────── */
@@ -1877,121 +1875,65 @@
         <div class="sec-header">
           <h2 class="sec-title">
             <span class="title-line">Bookkeeping that happens</span>
-            <span class="title-line">at the speed of speech.</span>
+            <span class="title-line">at the speed of speech</span>
           </h2>
-          <p class="sec-desc">Record the bread. Count the milk. Get a warning before the water finishes. All with voicenotes.</p>
+          <p class="sec-desc">Record the bread. Count the milk. Get a warning <br> before the water finishes. All with voicenotes.</p>
         </div>
 
-        <div class="plate plate--phone-stage">
-          <!-- Standalone 3D Glass Phone Screen matching Section 1, Middle-Aligned -->
-          <div class="phone phone--stage" aria-hidden="false" aria-label="Bookkeeping WhatsApp voice ledger screen">
+        <!-- Four-Phone Overlapping Mockup Cluster (Blank Placeholders) -->
+        <div class="mockup-container">
+          <!-- Soft Left and Right Edge Blur Overlays -->
+          <div class="mockup-edge-blur mockup-edge-blur--left" aria-hidden="true"></div>
+          <div class="mockup-edge-blur mockup-edge-blur--right" aria-hidden="true"></div>
+
+          <!-- 1. PHONE BACK Placeholder -->
+          <div class="phone phone--back pos-back" aria-hidden="true" role="button" tabindex="0" aria-label="Blank phone placeholder 1">
             <div class="phone-screen">
-              <div style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+              <div>
                 <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
-
-                <!-- Feature Badge -->
-                <div class="phone-badge phone-badge--teal">
-                  <svg class="phone-favicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                    <line x1="12" y1="19" x2="12" y2="23" />
-                    <line x1="8" y1="23" x2="16" y2="23" />
-                  </svg>
-                  <span>WhatsApp Voice Ledger</span>
-                </div>
-
-                <div class="phone-status-bar">
-                  <span>10:41</span>
-                  <span style="display: flex; align-items: center; gap: 4px;"><span>5G</span><span>● 94%</span></span>
-                </div>
-
-                <!-- Scrollable Inner Chat Content / Placeholders -->
-                <div class="chat-sim phone-chat-scroll">
-
-                  <!-- Outgoing Note -->
-                  <div class="chat-bubble chat-bubble--out">
-                    <div class="vn-row">
-                      <button class="vn-play-btn" onclick="toggleWaveAnim(this)" aria-label="Play voice note">▶</button>
-                      <div class="vn-waves">
-                        <span class="vn-bar" style="height: 6px;"></span>
-                        <span class="vn-bar" style="height: 14px;"></span>
-                        <span class="vn-bar" style="height: 20px;"></span>
-                        <span class="vn-bar" style="height: 10px;"></span>
-                        <span class="vn-bar" style="height: 22px;"></span>
-                        <span class="vn-bar" style="height: 16px;"></span>
-                        <span class="vn-bar" style="height: 8px;"></span>
-                        <span class="vn-bar" style="height: 18px;"></span>
-                        <span class="vn-bar" style="height: 12px;"></span>
-                      </div>
-                      <span style="font-size: 11px; font-family: monospace; color: #555;">0:04</span>
-                    </div>
-                    <div style="font-size: 12px; font-style: italic; margin-top: 8px; color: #2E7D32;">
-                      “I don sell two bread to Mr. Akpan, e pay five thousand naira”
-                    </div>
-                  </div>
-
-                  <!-- Incoming Response from Yauwa AI -->
-                  <div class="chat-bubble chat-bubble--in">
-                    <div
-                      style="display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--teal); margin-bottom: 6px;">
-                      <span style="display: flex; align-items: center; gap: 4px;">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        <span>YAUWA LEDGER BOT</span>
-                      </span>
-                      <span style="color: #999; font-weight: normal;">• 10:41 AM</span>
-                    </div>
-
-                    <div
-                      style="background: rgba(21, 122, 118, 0.08); border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-                      <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 13px;">
-                        <span>2 Sliced Bread</span>
-                        <span style="color: var(--teal); font-weight: 700;">₦5,000</span>
-                      </div>
-                      <div style="font-size: 11px; color: #666; margin-top: 2px;">
-                        Inventory count remaining: <strong style="color: #B45309;">3 loaves</strong>
-                      </div>
-                    </div>
-
-                    <div class="vn-row">
-                      <button class="vn-play-btn" onclick="toggleWaveAnim(this)" aria-label="Play confirmation">▶</button>
-                      <div style="font-size: 12px; color: #444; font-style: italic;">
-                        “Two bread enter your book. Five thousand naira tallied.”
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Interactive Group Poll / Alert -->
-                  <div class="chat-bubble chat-bubble--in" style="background: #FFFDF9; border-color: rgba(234, 179, 8, 0.4);">
-                    <div
-                      style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; margin-bottom: 8px;">
-                      <span style="color: var(--gold-dark); display: flex; align-items: center; gap: 5px;">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-                          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                        </svg>
-                        <span>Market Restock Consensus</span>
-                      </span>
-                      <span style="color: #777;">3 Votes</span>
-                    </div>
-                    <div style="font-size: 12px; margin-bottom: 6px;">Who is picking up bread from the bakery tomorrow?</div>
-                    <div
-                      style="background: rgba(0,0,0,0.04); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 4px;">
-                      <div style="width: 75%; height: 100%; background: var(--teal);"></div>
-                    </div>
-                    <div style="font-size: 10px; color: #888;">Mallam Idris (75%) • Amina (25%)</div>
-                  </div>
-
-                </div>
               </div>
-
               <div>
                 <div class="phone-home-bar"></div>
               </div>
             </div>
           </div>
+
+          <!-- 2. PHONE LEFT Placeholder -->
+          <div class="phone phone--left pos-left" aria-hidden="true" role="button" tabindex="0" aria-label="Blank phone placeholder 2">
+            <div class="phone-screen">
+              <div>
+                <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+              </div>
+              <div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. PHONE RIGHT Placeholder -->
+          <div class="phone phone--right pos-right" aria-hidden="true" role="button" tabindex="0" aria-label="Blank phone placeholder 3">
+            <div class="phone-screen">
+              <div>
+                <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+              </div>
+              <div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. PHONE CENTRE Placeholder (Front, Dominant) -->
+          <div class="phone phone--center pos-center is-active" aria-hidden="false" aria-label="Blank phone placeholder 4">
+            <div class="phone-screen">
+              <div>
+                <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+              </div>
+              <div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -2426,108 +2368,99 @@
 
     // ── Interactive Phone Cluster Swiper (Click, Hover & Swipe) ──────
     (function initPhoneClusterSwiper() {
-      const container = document.querySelector('.mockup-container');
-      if (!container) return;
+      const containers = document.querySelectorAll('.mockup-container');
+      if (!containers || containers.length === 0) return;
 
-      const phones = Array.from(container.querySelectorAll('.phone'));
-      if (phones.length < 2) return;
+      containers.forEach(container => {
+        const phones = Array.from(container.querySelectorAll('.phone'));
+        if (phones.length < 2) return;
 
-      // 4 orbital slots in clockwise rotation:
-      // index 0: pos-center (front & dominant)
-      // index 1: pos-right  (right flank)
-      // index 2: pos-back   (deep background)
-      // index 3: pos-left   (left flank)
-      const slots = ['pos-center', 'pos-right', 'pos-back', 'pos-left'];
+        // 4 orbital slots in clockwise rotation:
+        const slots = ['pos-center', 'pos-right', 'pos-back', 'pos-left'];
 
-      function getSlot(phone) {
-        for (const s of slots) {
-          if (phone.classList.contains(s)) return s;
-        }
-        return 'pos-center';
-      }
-
-      function setSlot(phone, slotName) {
-        slots.forEach(s => phone.classList.remove(s));
-        phone.classList.add(slotName);
-
-        if (slotName === 'pos-center') {
-          phone.classList.add('is-active');
-          phone.setAttribute('aria-hidden', 'false');
-          phone.setAttribute('role', 'region');
-          phone.removeAttribute('tabindex');
-        } else {
-          phone.classList.remove('is-active');
-          phone.setAttribute('aria-hidden', 'true');
-          phone.setAttribute('role', 'button');
-          phone.setAttribute('tabindex', '0');
-        }
-      }
-
-      function rotateToPhone(targetPhone) {
-        const currentSlot = getSlot(targetPhone);
-        if (currentSlot === 'pos-center') return; // already in front
-
-        const targetSlotIdx = slots.indexOf(currentSlot);
-        if (targetSlotIdx === -1) return;
-
-        // How much do we shift to bring targetSlotIdx to 0 (pos-center)?
-        const shift = targetSlotIdx;
-
-        phones.forEach(p => {
-          const oldSlot = getSlot(p);
-          const oldIdx = slots.indexOf(oldSlot);
-          // New position calculation
-          const newIdx = (oldIdx - shift + slots.length) % slots.length;
-          setSlot(p, slots[newIdx]);
-        });
-      }
-
-      // Click or keyboard activation on ANY phone
-      phones.forEach(phone => {
-        phone.addEventListener('click', (e) => {
-          // If clicked screen is not currently active, swoop it forward
-          if (!phone.classList.contains('is-active')) {
-            e.stopPropagation();
-            rotateToPhone(phone);
+        function getSlot(phone) {
+          for (const s of slots) {
+            if (phone.classList.contains(s)) return s;
           }
-        });
+          return 'pos-center';
+        }
 
-        phone.addEventListener('keydown', (e) => {
-          if ((e.key === 'Enter' || e.key === ' ') && !phone.classList.contains('is-active')) {
-            e.preventDefault();
-            rotateToPhone(phone);
-          }
-        });
-      });
+        function setSlot(phone, slotName) {
+          slots.forEach(s => phone.classList.remove(s));
+          phone.classList.add(slotName);
 
-      // Mobile Touch Gesture Support (Swipe left/right)
-      let touchStartX = 0;
-      let touchStartY = 0;
-
-      container.addEventListener('touchstart', (e) => {
-        if (!e.changedTouches || e.changedTouches.length === 0) return;
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-      }, { passive: true });
-
-      container.addEventListener('touchend', (e) => {
-        if (!e.changedTouches || e.changedTouches.length === 0) return;
-        const diffX = e.changedTouches[0].screenX - touchStartX;
-        const diffY = e.changedTouches[0].screenY - touchStartY;
-
-        // Horizontal swipe gesture detection (> 35px threshold)
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
-          if (diffX < 0) {
-            // Swiped Left -> Bring right phone to center
-            const rightPhone = phones.find(p => getSlot(p) === 'pos-right');
-            if (rightPhone) rotateToPhone(rightPhone);
+          if (slotName === 'pos-center') {
+            phone.classList.add('is-active');
+            phone.setAttribute('aria-hidden', 'false');
+            phone.setAttribute('role', 'region');
+            phone.removeAttribute('tabindex');
           } else {
-            // Swiped Right -> Bring left phone to center
-            const leftPhone = phones.find(p => getSlot(p) === 'pos-left');
-            if (leftPhone) rotateToPhone(leftPhone);
+            phone.classList.remove('is-active');
+            phone.setAttribute('aria-hidden', 'true');
+            phone.setAttribute('role', 'button');
+            phone.setAttribute('tabindex', '0');
           }
         }
-      }, { passive: true });
+
+        function rotateToPhone(targetPhone) {
+          const currentSlot = getSlot(targetPhone);
+          if (currentSlot === 'pos-center') return;
+
+          const targetSlotIdx = slots.indexOf(currentSlot);
+          if (targetSlotIdx === -1) return;
+
+          const shift = targetSlotIdx;
+
+          phones.forEach(p => {
+            const oldSlot = getSlot(p);
+            const oldIdx = slots.indexOf(oldSlot);
+            const newIdx = (oldIdx - shift + slots.length) % slots.length;
+            setSlot(p, slots[newIdx]);
+          });
+        }
+
+        phones.forEach(phone => {
+          phone.addEventListener('click', (e) => {
+            if (!phone.classList.contains('is-active')) {
+              e.stopPropagation();
+              rotateToPhone(phone);
+            }
+          });
+
+          phone.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !phone.classList.contains('is-active')) {
+              e.preventDefault();
+              rotateToPhone(phone);
+            }
+          });
+        });
+
+        // Mobile Touch Gesture Support (Swipe left/right)
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        container.addEventListener('touchstart', (e) => {
+          if (!e.changedTouches || e.changedTouches.length === 0) return;
+          touchStartX = e.changedTouches[0].screenX;
+          touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        container.addEventListener('touchend', (e) => {
+          if (!e.changedTouches || e.changedTouches.length === 0) return;
+          const diffX = e.changedTouches[0].screenX - touchStartX;
+          const diffY = e.changedTouches[0].screenY - touchStartY;
+
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+            if (diffX < 0) {
+              const rightPhone = phones.find(p => getSlot(p) === 'pos-right');
+              if (rightPhone) rotateToPhone(rightPhone);
+            } else {
+              const leftPhone = phones.find(p => getSlot(p) === 'pos-left');
+              if (leftPhone) rotateToPhone(leftPhone);
+            }
+          }
+        }, { passive: true });
+      });
     })();
   </script>
 
