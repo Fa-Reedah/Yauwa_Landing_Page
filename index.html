@@ -2878,19 +2878,44 @@
       });
     })();
 
-    // ── Automated Ledger 3/4 Phone Screen Carousel with Autoplay & Gestures ──
+    // ── Automated Ledger 3/4 Phone Screen Carousel with Seamless Infinite Looping & Autoplay ──
     (function initLedgerCarousel() {
       const windowEl = document.getElementById('ledger-window');
       const track = document.getElementById('ledger-carousel-track');
       if (!windowEl || !track) return;
 
-      const cards = Array.from(track.querySelectorAll('.ledger-card'));
+      const originalCards = Array.from(track.querySelectorAll('.ledger-card'));
       const dots = Array.from(document.querySelectorAll('#ledger-dots .ledger-dot'));
-      if (cards.length === 0) return;
+      const originalCount = originalCards.length;
+      if (originalCount === 0) return;
 
-      let currentIndex = 0;
+      // Duplicate cards before and after for seamless, endless loop in both directions
+      const preClones = originalCards.map(c => {
+        const clone = c.cloneNode(true);
+        clone.classList.remove('is-active');
+        clone.setAttribute('aria-hidden', 'true');
+        return clone;
+      });
+      const postClones = originalCards.map(c => {
+        const clone = c.cloneNode(true);
+        clone.classList.remove('is-active');
+        clone.setAttribute('aria-hidden', 'true');
+        return clone;
+      });
+
+      preClones.forEach(clone => track.insertBefore(clone, originalCards[0]));
+      postClones.forEach(clone => track.appendChild(clone));
+
+      const allCards = Array.from(track.querySelectorAll('.ledger-card'));
+
+      // Start at the first real card (index = originalCount)
+      let currentIndex = originalCount;
       let autoplayTimer = null;
       const autoplayInterval = 3800; // Auto-scrolls smoothly every 3.8s
+
+      function getRealIndex(idx) {
+        return ((idx - originalCount) % originalCount + originalCount) % originalCount;
+      }
 
       function updateCarousel(animate = true) {
         if (!animate) {
@@ -2899,7 +2924,9 @@
           track.style.transition = 'transform 600ms cubic-bezier(0.22, 1, 0.36, 1)';
         }
 
-        const targetCard = cards[currentIndex];
+        const targetCard = allCards[currentIndex];
+        if (!targetCard) return;
+
         const windowWidth = windowEl.offsetWidth;
         const cardLeft = targetCard.offsetLeft;
         const cardWidth = targetCard.offsetWidth;
@@ -2909,7 +2936,7 @@
         track.style.transform = `translateX(${offset}px)`;
 
         // Update card active classes
-        cards.forEach((card, idx) => {
+        allCards.forEach((card, idx) => {
           if (idx === currentIndex) {
             card.classList.add('is-active');
             card.setAttribute('aria-hidden', 'false');
@@ -2919,9 +2946,10 @@
           }
         });
 
-        // Update pagination indicators
+        // Update pagination indicators (sync smoothly back to dot 0 when looping)
+        const realIdx = getRealIndex(currentIndex);
         dots.forEach((dot, idx) => {
-          if (idx === currentIndex) {
+          if (idx === realIdx) {
             dot.classList.add('is-active');
           } else {
             dot.classList.remove('is-active');
@@ -2929,17 +2957,43 @@
         });
       }
 
-      function goToIndex(idx) {
-        currentIndex = (idx + cards.length) % cards.length;
+      // Silent wrap handler: when passing beyond original cards, smoothly wrap back without animation
+      track.addEventListener('transitionend', (e) => {
+        if (e.target !== track) return;
+        if (currentIndex >= originalCount * 2) {
+          currentIndex -= originalCount;
+          updateCarousel(false);
+        } else if (currentIndex < originalCount) {
+          currentIndex += originalCount;
+          updateCarousel(false);
+        }
+      });
+
+      function nextSlide() {
+        if (currentIndex >= originalCount * 2) {
+          currentIndex -= originalCount;
+          updateCarousel(false);
+          void track.offsetWidth; // Force reflow
+        }
+        currentIndex++;
         updateCarousel(true);
       }
 
-      function nextSlide() {
-        goToIndex(currentIndex + 1);
+      function prevSlide() {
+        if (currentIndex < originalCount) {
+          currentIndex += originalCount;
+          updateCarousel(false);
+          void track.offsetWidth; // Force reflow
+        }
+        currentIndex--;
+        updateCarousel(true);
       }
 
-      function prevSlide() {
-        goToIndex(currentIndex - 1);
+      function goToRealIndex(targetRealIdx) {
+        const currentReal = getRealIndex(currentIndex);
+        const diff = targetRealIdx - currentReal;
+        currentIndex += diff;
+        updateCarousel(true);
       }
 
       function startAutoplay() {
@@ -2966,10 +3020,11 @@
       windowEl.addEventListener('mouseleave', startAutoplay);
 
       // Card click: clicking side cards scrolls directly to them
-      cards.forEach((card, idx) => {
+      allCards.forEach((card, idx) => {
         card.addEventListener('click', () => {
           if (idx !== currentIndex) {
-            goToIndex(idx);
+            currentIndex = idx;
+            updateCarousel(true);
             startAutoplay();
           }
         });
@@ -2978,7 +3033,7 @@
       // Dot click navigation
       dots.forEach((dot, idx) => {
         dot.addEventListener('click', () => {
-          goToIndex(idx);
+          goToRealIndex(idx);
           startAutoplay();
         });
       });
