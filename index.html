@@ -2746,6 +2746,30 @@
           if (leftPhone) rotateToPhone(leftPhone);
         }
 
+        let autoplayTimer = null;
+        const autoplayInterval = 3800; // Auto-swipes smoothly every 3.8s
+
+        function startAutoplay() {
+          stopAutoplay();
+          autoplayTimer = setInterval(() => {
+            rotateNext();
+          }, autoplayInterval);
+        }
+
+        function stopAutoplay() {
+          if (autoplayTimer) {
+            clearInterval(autoplayTimer);
+            autoplayTimer = null;
+          }
+        }
+
+        // Start automatic swipe
+        startAutoplay();
+
+        // Pause automatic swipe on hover, resume on mouse leave
+        container.addEventListener('mouseenter', stopAutoplay);
+        container.addEventListener('mouseleave', startAutoplay);
+
         let hasDragged = false;
         let isMouseDown = false;
         let mouseStartX = 0;
@@ -2761,6 +2785,7 @@
             if (!phone.classList.contains('is-active')) {
               e.stopPropagation();
               rotateToPhone(phone);
+              startAutoplay();
             }
           });
 
@@ -2768,12 +2793,14 @@
             if ((e.key === 'Enter' || e.key === ' ') && !phone.classList.contains('is-active')) {
               e.preventDefault();
               rotateToPhone(phone);
+              startAutoplay();
             }
           });
         });
 
         // Mouse Drag Support (Drag horizontally to cycle placeholders)
         container.addEventListener('mousedown', (e) => {
+          stopAutoplay();
           isMouseDown = true;
           hasDragged = false;
           mouseStartX = e.pageX;
@@ -2798,6 +2825,7 @@
               rotatePrev();
             }
           }
+          startAutoplay();
           setTimeout(() => { hasDragged = false; }, 60);
         });
 
@@ -2806,11 +2834,13 @@
         container.addEventListener('wheel', (e) => {
           if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
             e.preventDefault();
+            stopAutoplay();
             if (!wheelDebounce) {
               if (e.deltaX > 0) rotateNext();
               else rotatePrev();
               wheelDebounce = setTimeout(() => { wheelDebounce = null; }, 380);
             }
+            startAutoplay();
           }
         }, { passive: false });
 
@@ -2821,6 +2851,7 @@
         let touchDiffY = 0;
 
         container.addEventListener('touchstart', (e) => {
+          stopAutoplay();
           if (!e.changedTouches || e.changedTouches.length === 0) return;
           touchStartX = e.changedTouches[0].screenX;
           touchStartY = e.changedTouches[0].screenY;
@@ -2842,6 +2873,7 @@
               rotatePrev();
             }
           }
+          startAutoplay();
         }, { passive: true });
       });
     })();
