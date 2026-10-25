@@ -503,23 +503,17 @@
     .hero-title {
       font-family: var(--face-serif);
       font-weight: 400;
-      font-size: clamp(36px, 9vw, 64px);
+      font-size: clamp(22px, 6.4vw, 64px);
       line-height: 1.05;
       letter-spacing: -0.035em;
       color: var(--ink);
-      max-width: 720px;
+      max-width: 780px;
       margin: 0 auto clamp(36px, 4.2vh, 40px);
-      text-wrap: balance;
     }
 
     .hero-title .title-line {
       display: block;
-    }
-
-    @media (min-width: 640px) {
-      .hero-title .title-line {
-        white-space: nowrap;
-      }
+      white-space: nowrap;
     }
 
     /* Avatar Group & Hover Behavior */
@@ -610,19 +604,30 @@
       width: 100%;
       max-width: 1300px;
       /* Proportional container height adapting smoothly to viewport */
-      height: clamp(380px, 72vw, 780px);
+      height: clamp(340px, 74vw, 780px);
       margin: 0 auto;
-      overflow: hidden;
+      overflow: visible; /* Prevents harsh box clipping boundaries on hover */
       perspective: 1200px;
-      /* Proportional responsive scale so all 4 screens and blurred parts display fully across all screens */
-      --phone-w: clamp(220px, 32vw, 380px);
-      --phone-h: clamp(385px, 63vw, 740px);
-      --phone-offset: clamp(70px, 20vw, 240px);
+      cursor: grab;
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+      /* Generous wide offset on smaller screens so the blurred flank phones are clearly visible peeking out from behind the front phone */
+      --phone-w: clamp(140px, 28vw, 380px);
+      --phone-h: clamp(275px, 54vw, 740px);
+      --phone-offset: clamp(75px, 22vw, 240px);
+    }
+
+    .mockup-container:active {
+      cursor: grabbing;
     }
 
     @media (min-width: 1025px) {
       .mockup-container {
         height: 780px;
+        --phone-w: 360px;
+        --phone-h: 700px;
+        --phone-offset: 210px;
       }
     }
 
@@ -631,11 +636,18 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: clamp(24px, 6vw, 160px);
+      width: clamp(10px, 3.5vw, 160px);
       z-index: 4;
       pointer-events: none;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+    }
+
+    @media (max-width: 640px) {
+      .mockup-edge-blur {
+        opacity: 0.35;
+        width: 14px;
+      }
     }
 
     .mockup-edge-blur--left {
@@ -684,9 +696,8 @@
           rgba(255, 255, 255, 0.52) 100%);
       border: 1.5px solid rgba(255, 255, 255, 0.95);
       box-shadow:
-        0 36px 90px -15px rgba(0, 0, 0, 0.16),
-        0 16px 36px -8px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(0, 0, 0, 0.04),
+        0 36px 90px -15px rgba(0, 0, 0, 0.14),
+        0 16px 36px -8px rgba(0, 0, 0, 0.06),
         inset 0 2px 5px rgba(255, 255, 255, 1),
         inset 0 -2px 4px rgba(0, 0, 0, 0.06),
         inset 2px 0 4px rgba(255, 255, 255, 0.8),
@@ -703,12 +714,17 @@
       z-index: 1;
       pointer-events: auto;
       cursor: pointer;
+      outline: none;
       transition:
         transform 650ms cubic-bezier(0.16, 1, 0.3, 1),
         filter 450ms ease,
         opacity 450ms ease,
         box-shadow 650ms cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform, filter, opacity;
+    }
+
+    .phone:focus {
+      outline: none;
     }
 
     /* 3D Specular Prismatic Rim Highlight */
@@ -759,11 +775,10 @@
       opacity: 1 !important;
       z-index: 10 !important;
       cursor: default;
-      transform: translateX(-50%) translateY(0) scale(1) rotate(0deg) !important;
+      transform: translateX(-50%) translateY(clamp(16px, 3.5vw, 40px)) scale(1) rotate(0deg) !important;
       box-shadow:
         0 42px 100px -15px rgba(21, 122, 118, 0.2),
         0 20px 45px -8px rgba(0, 0, 0, 0.12),
-        0 0 0 1px rgba(0, 0, 0, 0.04),
         inset 0 2px 5px rgba(255, 255, 255, 1),
         inset 0 -2px 4px rgba(0, 0, 0, 0.06),
         inset 2px 0 4px rgba(255, 255, 255, 0.8),
@@ -789,12 +804,21 @@
     }
 
     /* ── Inactive Back Slot (.pos-back / .phone--back) ──────── */
+    /* Tucked lower behind the center phone so it does not poke up */
     .phone.pos-back:not(.is-active),
     .phone--back:not(.is-active):not(.pos-right):not(.pos-left):not(.pos-center) {
       z-index: 1;
-      transform: translateX(calc(-50% + clamp(8px, 2.5vw, 42px))) translateY(calc(clamp(8px, 2vw, 24px) * -1)) rotate(3deg) scale(0.85);
+      transform: translateX(calc(-50% + clamp(8px, 2.5vw, 42px))) translateY(clamp(20px, 4vw, 48px)) rotate(3deg) scale(0.84);
       opacity: 0.45;
       filter: blur(clamp(5px, 0.9vw, 10px));
+    }
+
+    /* Completely hide camera notch & button on the back phone so it never pokes out */
+    .phone.pos-back:not(.is-active) .phone-notch,
+    .phone--back:not(.is-active) .phone-notch {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
     }
 
     /* Inactive Center Slot (when an originally centered phone is displaced) */
@@ -805,43 +829,51 @@
       filter: blur(9px);
     }
 
-    /* ── Hover: When NOT hovering a placeholder, it stays blurry. When hovering, it is brought to the top and becomes completely CLEAR ──────── */
+    /* ── Hover: Inactive placeholders become clearer on hover, but DO NOT come forward until clicked ──────── */
     @media (hover: hover) and (pointer: fine) {
-      /* Any hovered phone: crystal clear, fully opaque, brought to the very top */
-      .mockup-container .phone:hover {
-        filter: none !important;
-        opacity: 1 !important;
-        z-index: 50 !important;
-        box-shadow:
-          0 46px 110px -15px rgba(21, 122, 118, 0.28),
-          0 22px 50px -8px rgba(0, 0, 0, 0.18),
-          0 0 0 1.5px rgba(21, 122, 118, 0.4),
-          inset 0 2px 5px rgba(255, 255, 255, 1),
-          inset 0 -2px 4px rgba(0, 0, 0, 0.06),
-          inset 2px 0 4px rgba(255, 255, 255, 0.8),
-          inset -2px 0 4px rgba(255, 255, 255, 0.6) !important;
+
+      /* Hovering an inactive phone makes it a bit clearer, but it stays behind pos-center */
+      .mockup-container .phone:not(.is-active):hover {
+        opacity: 0.88 !important;
+        filter: blur(2px) !important;
+        cursor: pointer;
       }
 
-      /* When hovering any phone in the container, all sibling phones that are NOT hovered stay blurry */
-      .mockup-container:has(.phone:hover) .phone:not(:hover) {
+      /* Sibling inactive phones remain softly blurred when one is hovered */
+      .mockup-container:has(.phone:not(.is-active):hover) .phone:not(:hover):not(.is-active) {
         filter: blur(8px) !important;
         opacity: 0.45 !important;
       }
 
-      .mockup-container .phone.pos-center:hover {
-        transform: translateX(-50%) translateY(-6px) scale(1.02) rotate(0deg) !important;
+      /* Hovering pos-right: stays in place, subtle tilt preview without jumping to front */
+      .mockup-container .phone.pos-right:not(.is-active):hover {
+        z-index: 5 !important;
+        transform: translateX(calc(-50% + var(--phone-offset))) translateY(clamp(10px, 2.6vw, 32px)) rotate(5deg) scale(0.91) !important;
       }
 
-      .mockup-container .phone.pos-right:hover {
-        transform: translateX(calc(-50% + (var(--phone-offset) * 0.92))) translateY(clamp(4px, 1.2vw, 14px)) scale(0.96) rotate(3deg) !important;
+      /* Hovering pos-left: stays in place, subtle tilt preview without jumping to front */
+      .mockup-container .phone.pos-left:not(.is-active):hover {
+        z-index: 5 !important;
+        transform: translateX(calc(-50% - var(--phone-offset))) translateY(clamp(10px, 2.6vw, 32px)) rotate(-5deg) scale(0.91) !important;
       }
 
-      .mockup-container .phone.pos-left:hover {
-        transform: translateX(calc(-50% - (var(--phone-offset) * 0.92))) translateY(clamp(4px, 1.2vw, 14px)) scale(0.96) rotate(-3deg) !important;
+      /* Hovering pos-back: stays tucked in the back without poking above */
+      .mockup-container .phone.pos-back:not(.is-active):hover {
+        z-index: 2 !important;
+        transform: translateX(calc(-50% + clamp(8px, 2.5vw, 42px))) translateY(clamp(18px, 3.6vw, 44px)) rotate(2deg) scale(0.85) !important;
       }
 
-      .mockup-container .phone.pos-back:hover {
-        transform: translateX(calc(-50% + clamp(8px, 2.5vw, 36px))) translateY(calc(clamp(8px, 2vw, 24px) * -1.5)) scale(0.92) rotate(1deg) !important;
+      /* The Active Center Phone: stays in front and performs smooth, seamless hover lift with no harsh box ring */
+      .mockup-container .phone.pos-center.is-active:hover {
+        z-index: 10 !important;
+        transform: translateX(-50%) translateY(calc(clamp(16px, 3.5vw, 40px) - 6px)) scale(1.02) rotate(0deg) !important;
+        box-shadow:
+          0 46px 110px -15px rgba(21, 122, 118, 0.22),
+          0 22px 50px -8px rgba(0, 0, 0, 0.12),
+          inset 0 2px 5px rgba(255, 255, 255, 1),
+          inset 0 -2px 4px rgba(0, 0, 0, 0.06),
+          inset 2px 0 4px rgba(255, 255, 255, 0.8),
+          inset -2px 0 4px rgba(255, 255, 255, 0.6) !important;
       }
     }
 
@@ -986,9 +1018,31 @@
     }
 
     .sec {
-      padding: clamp(90px, 14vh, 160px) 24px;
+      padding: clamp(80px, 12vh, 160px) clamp(16px, 3.5vw, 24px);
       max-width: 1140px;
       margin-inline: auto;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: clamp(48px, 12vh, 80px);
+      }
+
+      .sec {
+        padding: clamp(40px, 7vh, 64px) 16px;
+      }
+
+      .sec-header {
+        margin-bottom: clamp(24px, 4vh, 36px);
+      }
+
+      #sec-multiplayer .sec-header {
+        margin-bottom: clamp(28px, 4.5vh, 48px);
+      }
+
+      .desktop-continuity {
+        padding: clamp(40px, 7vh, 64px) 16px;
+      }
     }
 
     .sec-header {
@@ -1009,101 +1063,288 @@
 
     .sec-title {
       font-family: var(--face-serif);
-      font-size: clamp(32px, 7.5vw, 68px);
-      line-height: 1.06;
-      letter-spacing: -0.035em;
+      font-weight: 450;
+      /* Fluid scaling so it never breaks into extra lines on mobile, looking identical to desktop */
+      font-size: clamp(19px, 5.8vw, 75.55px);
+      line-height: 1.1;
+      letter-spacing: -.02em;
       color: var(--ink);
-      margin-bottom: 18px;
-      text-wrap: balance;
+      max-width: 820px;
+      margin: 0 auto 18px;
     }
 
     .sec-desc {
-      font-size: clamp(16px, 3.8vw, 20px);
-      color: var(--ink-70);
-      line-height: 1.55;
+      font-family: var(--face);
+      font-weight: 550;
+      font-size: clamp(13px, 3.4vw, 20px);
+      line-height: 1.5;
+      letter-spacing: -0.012em;
+      color: var(--grey-500);
+      max-width: 680px;
+      margin: 0 auto;
+      text-wrap: balance;
     }
 
     /* Section 2 Header Typography matching Wabi and Section 1 */
     #sec-multiplayer .sec-header {
-      max-width: 720px;
+      max-width: 820px;
       margin: 0 auto clamp(36px, 5vh, 52px);
+      margin-bottom: clamp(60px, 9vh, 110px);
       text-align: center;
     }
 
     #sec-multiplayer .sec-title {
       font-family: var(--face-serif);
       font-weight: 450;
-      font-size: clamp(36px, 9vw, 55.55px);
-      line-height: -1;
-      letter-spacing: -.01em;
+      /* Fluid scaling so it never breaks into extra lines on mobile, looking identical to desktop */
+      font-size: clamp(19px, 5.8vw, 55.55px);
+      line-height: 1.1;
+      letter-spacing: -.02em;
       color: var(--ink);
-      max-width: 720px;
+      max-width: 820px;
       margin: 0 auto 18px;
-      text-wrap: balance;
     }
 
     #sec-multiplayer .sec-title .title-line {
       display: block;
+      white-space: nowrap;
     }
 
-    @media (min-width: 640px) {
-      #sec-multiplayer .sec-title .title-line {
-        white-space: nowrap;
-      }
+    /* Section 3 (Autonomous Commerce - Leave the thinking to Yauwa) Typography */
+    #sec-handle .sec-header {
+      max-width: 820px;
+      margin: 0 auto clamp(36px, 5vh, 52px);
+      margin-bottom: clamp(36px, 6vh, 64px);
+      text-align: center;
     }
 
-    #sec-multiplayer .sec-desc {
+    #sec-handle .sec-title {
+      font-family: var(--face-serif);
+      font-weight: 450;
+      /* Reduces font size on smaller screens so the headline fits cleanly on one line without cutting */
+      font-size: clamp(17px, 5.2vw, 55.55px);
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      max-width: 820px;
+      margin: 0 auto 16px;
+    }
+
+    #sec-handle .sec-title .title-line {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    #sec-handle .sec-desc {
       font-family: var(--face);
       font-weight: 550;
-      font-size: clamp(16px, 3.8vw, 20px);
-      line-height: 1.55;
+      /* Fluid scaling on smaller screens so the smaller text reduces gracefully without forced cuts */
+      font-size: clamp(11.5px, 2.7vw, 18px);
+      line-height: 1.5;
       letter-spacing: -0.012em;
       color: var(--grey-500);
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
       text-wrap: balance;
     }
 
-    /* Section 2 Phone Stage (Middle Alignment & Copied Phone Screen) */
-    .plate--phone-stage {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    #sec-handle .sec-desc .desc-line {
+      display: block;
+    }
+
+    @media (max-width: 640px) {
+      #sec-handle .sec-title .title-line {
+        white-space: nowrap;
+      }
+      #sec-handle .sec-desc .desc-line {
+        display: inline;
+      }
+    }
+
+    /* ── Automated Ledger 3/4 Phone Screen Carousel Window (.ledger-window) ──────── */
+    .ledger-window {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: clamp(20px, 4vw, 56px);
-      text-align: center;
+      overflow: hidden;
+      padding: clamp(14px, 2.5vh, 26px) 0 clamp(16px, 2.5vh, 28px);
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    .phone--stage {
-      position: relative !important;
-      left: auto !important;
-      right: auto !important;
-      top: auto !important;
-      transform: none !important;
-      filter: none !important;
-      opacity: 1 !important;
-      z-index: 5 !important;
-      margin: 0 auto !important;
-      width: var(--phone-w);
-      height: var(--phone-h);
-      max-width: 100%;
-      cursor: default;
+    /* Soft Edge Blur Vignettes on Left & Right */
+    .ledger-edge-blur {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: clamp(50px, 20vw, 240px);
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .ledger-edge-blur--left {
+      left: 0;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      -webkit-mask-image: linear-gradient(to right, #000 30%, transparent 100%);
+      mask-image: linear-gradient(to right, #000 30%, transparent 100%);
+      background: linear-gradient(to right, rgba(250, 248, 243, 0.8) 0%, rgba(250, 248, 243, 0) 100%);
+    }
+
+    .ledger-edge-blur--right {
+      right: 0;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      -webkit-mask-image: linear-gradient(to left, #000 30%, transparent 100%);
+      mask-image: linear-gradient(to left, #000 30%, transparent 100%);
+      background: linear-gradient(to left, rgba(250, 248, 243, 0.8) 0%, rgba(250, 248, 243, 0) 100%);
+    }
+
+    /* Horizontal Carousel Track */
+    .ledger-carousel-track {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 4vw, 42px);
+      width: max-content;
+      will-change: transform;
+      transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: grab;
+      touch-action: pan-y;
+    }
+
+    .ledger-carousel-track:active {
+      cursor: grabbing;
+      transition: none;
+    }
+
+    /* 3/4 Size Phone Card Component (Height reduced by 1/4) */
+    .ledger-card {
+      width: clamp(190px, 32vw, 290px);
+      height: clamp(248px, 40.5vw, 382px);
+      border-radius: clamp(18px, 3.2vw, 32px);
+      padding: clamp(5px, 1vw, 10px);
+      background: linear-gradient(140deg,
+          rgba(255, 255, 255, 0.82) 0%,
+          rgba(255, 255, 255, 0.32) 42%,
+          rgba(255, 255, 255, 0.58) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
       box-shadow:
-        0 42px 100px -15px rgba(21, 122, 118, 0.2),
-        0 20px 45px -8px rgba(0, 0, 0, 0.12),
-        0 0 0 1px rgba(0, 0, 0, 0.04),
-        inset 0 2px 5px rgba(255, 255, 255, 1),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.06),
-        inset 2px 0 4px rgba(255, 255, 255, 0.8),
-        inset -2px 0 4px rgba(255, 255, 255, 0.6) !important;
+        0 24px 60px -12px rgba(0, 0, 0, 0.1),
+        0 10px 24px -6px rgba(0, 0, 0, 0.05),
+        inset 0 2px 4px rgba(255, 255, 255, 0.95),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+      -webkit-backdrop-filter: blur(24px) saturate(1.6);
+      backdrop-filter: blur(24px) saturate(1.6);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      cursor: pointer;
+      opacity: 0.42;
+      filter: blur(4px);
+      transform: scale(0.88);
+      transition:
+        transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 500ms ease,
+        filter 500ms ease,
+        box-shadow 600ms cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
     }
 
-    .phone--stage .phone-screen {
+    .ledger-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0.7) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Active Center Card (Crisp, elevated, dominant) */
+    .ledger-card.is-active {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: scale(1.02) !important;
+      z-index: 5 !important;
+      box-shadow:
+        0 38px 90px -15px rgba(21, 122, 118, 0.22),
+        0 18px 40px -8px rgba(0, 0, 0, 0.12),
+        inset 0 2px 5px rgba(255, 255, 255, 1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+      cursor: default;
+    }
+
+    .ledger-card:not(.is-active):hover {
+      opacity: 0.72;
+      filter: blur(1.5px);
+    }
+
+    /* Inner Screen Surface */
+    .ledger-card-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: clamp(14px, 2.6vw, 24px);
+      background: #FAF8F5;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+      padding: clamp(6px, 1.3vw, 14px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 100%;
+      box-sizing: border-box;
       overflow: hidden;
+    }
+
+    /* Mini Dynamic Island Notch */
+    .ledger-card-notch {
+      width: clamp(38px, 8vw, 76px);
+      height: clamp(11px, 2vw, 20px);
+      background: #000000;
+      border-radius: 999vw;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 8px;
+    }
+
+    .ledger-card-body {
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Carousel Pagination Indicators */
+    .ledger-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: clamp(14px, 2.5vh, 22px);
+      position: relative;
+      z-index: 20;
+    }
+
+    .ledger-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999vw;
+      background: rgba(25, 25, 25, 0.18);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: width 300ms ease, background-color 300ms ease;
+    }
+
+    .ledger-dot.is-active {
+      width: 24px;
+      background: var(--teal);
     }
 
     .phone-chat-scroll {
@@ -1666,7 +1907,8 @@
         <div class="mockup-edge-blur mockup-edge-blur--right" aria-hidden="true"></div>
 
         <!-- 1. PHONE BACK: Depth Accent (mostly hidden behind cluster) -->
-        <div class="phone phone--back pos-back" aria-hidden="true" role="button" tabindex="0" aria-label="Spoken Sale screen">
+        <div class="phone phone--back pos-back" aria-hidden="true" role="button" tabindex="0"
+          aria-label="Spoken Sale screen">
           <div class="phone-screen">
             <div>
               <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1693,7 +1935,8 @@
         </div>
 
         <!-- 2. PHONE LEFT: Stock Threshold Radar (partly tucked behind, angled outward) -->
-        <div class="phone phone--left pos-left" aria-hidden="true" role="button" tabindex="0" aria-label="Threshold Radar screen">
+        <div class="phone phone--left pos-left" aria-hidden="true" role="button" tabindex="0"
+          aria-label="Threshold Radar screen">
           <div class="phone-screen">
             <div>
               <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1745,7 +1988,8 @@
         </div>
 
         <!-- 3. PHONE RIGHT: Market Trip Restock Checklist (partly tucked behind, angled outward) -->
-        <div class="phone phone--right pos-right" aria-hidden="true" role="button" tabindex="0" aria-label="Market Checklist screen">
+        <div class="phone phone--right pos-right" aria-hidden="true" role="button" tabindex="0"
+          aria-label="Market Checklist screen">
           <div class="phone-screen">
             <div>
               <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1815,7 +2059,8 @@
         </div>
 
         <!-- 4. PHONE CENTRE: Daily Spoken Ledger (sharp, full size, dominant, highest z-index) -->
-        <div class="phone phone--center pos-center is-active" aria-hidden="false" aria-label="Daily Spoken Ledger screen">
+        <div class="phone phone--center pos-center is-active" aria-hidden="false"
+          aria-label="Daily Spoken Ledger screen">
           <div class="phone-screen">
             <div>
               <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1875,9 +2120,50 @@
         <div class="sec-header">
           <h2 class="sec-title">
             <span class="title-line">Bookkeeping that happens</span>
-            <span class="title-line">at the speed of speech</span>
+            <span class="title-line">
+              at the speed of speech
+              <span class="avatar-group" aria-label="Audio, voice, and lightning-fast bookkeeping in Yauwa festive colors">
+                <!-- 1. Speaker / Acoustic Voice Soundwaves (Festive Yauwa Teal #157A76) -->
+                <span class="avatar" tabindex="0" title="Audio Voice Note">
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="50" fill="#157A76" />
+                    <circle cx="50" cy="50" r="48" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none" />
+                    <path d="M25 38 H35 L51 24 V76 L35 62 H25 Z" fill="#FAF8F3" stroke="#0D5855" stroke-width="1.5" stroke-linejoin="round" />
+                    <path d="M61 40 Q 67 50 61 60" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none" />
+                    <path d="M71 32 Q 81 50 71 68" stroke="#EAB308" stroke-width="3.5" stroke-linecap="round" fill="none" />
+                    <path d="M81 24 Q 95 50 81 76" stroke="#FEF08A" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.9" />
+                  </svg>
+                </span>
+
+                <!-- 2. Studio Vocal Broadcast Microphone (Festive Yauwa Terracotta #C0392B) -->
+                <span class="avatar" tabindex="0" title="Speech Recognition">
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="50" fill="#C0392B" />
+                    <circle cx="50" cy="50" r="48" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none" />
+                    <rect x="41" y="20" width="18" height="32" rx="9" fill="#FAF8F3" />
+                    <line x1="41" y1="31" x2="59" y2="31" stroke="#C0392B" stroke-width="2" />
+                    <line x1="41" y1="38" x2="59" y2="38" stroke="#C0392B" stroke-width="2" />
+                    <line x1="50" y1="21" x2="50" y2="38" stroke="#C0392B" stroke-width="1.5" />
+                    <path d="M33 36 C 33 58, 67 58, 67 36" stroke="#EAB308" stroke-width="3.5" stroke-linecap="round" fill="none" />
+                    <line x1="50" y1="58" x2="50" y2="72" stroke="#EAB308" stroke-width="3.5" stroke-linecap="round" />
+                    <line x1="36" y1="72" x2="64" y2="72" stroke="#EAB308" stroke-width="4" stroke-linecap="round" />
+                  </svg>
+                </span>
+
+                <!-- 3. Electric Lightning Velocity (Festive Yauwa Gold #EAB308) -->
+                <span class="avatar" tabindex="0" title="Sub-Second Execution">
+                  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="50" fill="#EAB308" />
+                    <circle cx="50" cy="50" r="48" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none" />
+                    <circle cx="50" cy="50" r="32" stroke="#CA8A04" stroke-width="1.5" stroke-dasharray="3 3" fill="none" opacity="0.65" />
+                    <path d="M54 18 L34 48 H48 L44 82 L66 44 H50 L56 18 Z" fill="#FAF8F3" stroke="#157A76" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </span>
+            </span>
           </h2>
-          <p class="sec-desc">Record the bread. Count the milk. Get a warning <br> before the water finishes. All with voicenotes.</p>
+          <p class="sec-desc">Record the bread. Count the milk. Get a warning <br> before the water finishes. All with
+            voicenotes.</p>
         </div>
 
         <!-- Four-Phone Overlapping Mockup Cluster (Blank Placeholders) -->
@@ -1887,7 +2173,8 @@
           <div class="mockup-edge-blur mockup-edge-blur--right" aria-hidden="true"></div>
 
           <!-- 1. PHONE BACK Placeholder -->
-          <div class="phone phone--back pos-back" aria-hidden="true" role="button" tabindex="0" aria-label="Blank phone placeholder 1">
+          <div class="phone phone--back pos-back" aria-hidden="true" role="button" tabindex="0"
+            aria-label="Blank phone placeholder 1">
             <div class="phone-screen">
               <div>
                 <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1899,7 +2186,8 @@
           </div>
 
           <!-- 2. PHONE LEFT Placeholder -->
-          <div class="phone phone--left pos-left" aria-hidden="true" role="button" tabindex="0" aria-label="Blank phone placeholder 2">
+          <div class="phone phone--left pos-left" aria-hidden="true" role="button" tabindex="0"
+            aria-label="Blank phone placeholder 2">
             <div class="phone-screen">
               <div>
                 <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1911,7 +2199,8 @@
           </div>
 
           <!-- 3. PHONE RIGHT Placeholder -->
-          <div class="phone phone--right pos-right" aria-hidden="true" role="button" tabindex="0" aria-label="Blank phone placeholder 3">
+          <div class="phone phone--right pos-right" aria-hidden="true" role="button" tabindex="0"
+            aria-label="Blank phone placeholder 3">
             <div class="phone-screen">
               <div>
                 <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1923,7 +2212,8 @@
           </div>
 
           <!-- 4. PHONE CENTRE Placeholder (Front, Dominant) -->
-          <div class="phone phone--center pos-center is-active" aria-hidden="false" aria-label="Blank phone placeholder 4">
+          <div class="phone phone--center pos-center is-active" aria-hidden="false"
+            aria-label="Blank phone placeholder 4">
             <div class="phone-screen">
               <div>
                 <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
@@ -1940,45 +2230,69 @@
       <!-- BEAT 2: Autonomous Ledger Action ("Leave it to Yauwa") -->
       <section id="sec-handle" class="sec">
         <div class="sec-header">
-          <span class="sec-tag">Autonomous Commerce</span>
-          <h2 class="sec-title">Leave it to Yauwa</h2>
-          <p class="sec-desc">Save money, balance the numbers, and hand over the things taking up space in your head.
-            Yauwa comes back with the right outcome in the right interface.</p>
+          <h2 class="sec-title">
+            <span class="title-line">Leave the thinking to Yauwa</span>
+          </h2>
+          <p class="sec-desc">
+            <span class="desc-line">Run your shop without holding the whole inventory in your head. <br> </span>
+            <span class="desc-line">Yauwa listens to your voice note, updates your ledger, and tells you exactly what is running low before you run out</span>
+          </p>
         </div>
 
-        <div class="plate" style="text-align: center;">
-          <div
-            style="max-width: 600px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        <!-- 3/4 Phone Screen Carousel Window with Left & Right Edge Blurs -->
+        <div class="ledger-window" id="ledger-window" aria-label="Automated Ledger Carousel">
+          <div class="ledger-edge-blur ledger-edge-blur--left" aria-hidden="true"></div>
+          <div class="ledger-edge-blur ledger-edge-blur--right" aria-hidden="true"></div>
 
-            <div
-              style="background: #FFF; border-radius: 24px; padding: 24px; text-align: left; box-shadow: 0 10px 24px rgba(0,0,0,0.04);">
-              <div
-                style="width: 44px; height: 44px; border-radius: 12px; background: rgba(21, 122, 118, 0.1); color: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px;">
-                ₦</div>
-              <h3 style="font-family: var(--face-serif); font-size: 20px; font-weight: 700; margin-bottom: 6px;">
-                Automated Ledger</h3>
-              <p style="font-size: 13px; color: var(--ink-70); line-height: 1.5;">Every transaction is extracted and
-                categorized into income, credit, and debt automatically.</p>
-            </div>
-
-            <div
-              style="background: #FFF; border-radius: 24px; padding: 24px; text-align: left; box-shadow: 0 10px 24px rgba(0,0,0,0.04);">
-              <div
-                style="width: 44px; height: 44px; border-radius: 12px; background: rgba(192, 57, 43, 0.1); color: var(--terracotta); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path
-                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                  <line x1="12" y1="22.08" x2="12" y2="12" />
-                </svg>
+          <div class="ledger-carousel-track" id="ledger-carousel-track">
+            <!-- 5 Blank 3/4 Phone Screen Cards (Ready to hold messages) -->
+            <div class="ledger-card is-active" data-index="0" role="group" aria-label="Ledger screen 1">
+              <div class="ledger-card-screen">
+                <div class="ledger-card-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+                <div class="ledger-card-body"></div>
+                <div class="phone-home-bar"></div>
               </div>
-              <h3 style="font-family: var(--face-serif); font-size: 20px; font-weight: 700; margin-bottom: 6px;">
-                Threshold Alerts</h3>
-              <p style="font-size: 13px; color: var(--ink-70); line-height: 1.5;">Proactive voice calls and voice notes
-                when vital stock drops below replenishment thresholds.</p>
             </div>
 
+            <div class="ledger-card" data-index="1" role="group" aria-label="Ledger screen 2">
+              <div class="ledger-card-screen">
+                <div class="ledger-card-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+                <div class="ledger-card-body"></div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+
+            <div class="ledger-card" data-index="2" role="group" aria-label="Ledger screen 3">
+              <div class="ledger-card-screen">
+                <div class="ledger-card-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+                <div class="ledger-card-body"></div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+
+            <div class="ledger-card" data-index="3" role="group" aria-label="Ledger screen 4">
+              <div class="ledger-card-screen">
+                <div class="ledger-card-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+                <div class="ledger-card-body"></div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+
+            <div class="ledger-card" data-index="4" role="group" aria-label="Ledger screen 5">
+              <div class="ledger-card-screen">
+                <div class="ledger-card-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
+                <div class="ledger-card-body"></div>
+                <div class="phone-home-bar"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ledger-dots" id="ledger-dots" aria-label="Ledger carousel pagination">
+            <button class="ledger-dot is-active" data-index="0" aria-label="Go to screen 1"></button>
+            <button class="ledger-dot" data-index="1" aria-label="Go to screen 2"></button>
+            <button class="ledger-dot" data-index="2" aria-label="Go to screen 3"></button>
+            <button class="ledger-dot" data-index="3" aria-label="Go to screen 4"></button>
+            <button class="ledger-dot" data-index="4" aria-label="Go to screen 5"></button>
           </div>
         </div>
       </section>
@@ -2323,47 +2637,50 @@
 
     // ── Avatar Group Hover & Touch Tap Interactivity ───────────────────
     (function initAvatarGroupInteractivity() {
-      const group = document.querySelector('.avatar-group');
-      if (!group) return;
-      const avatars = group.querySelectorAll('.avatar');
+      const groups = document.querySelectorAll('.avatar-group');
+      if (!groups || groups.length === 0) return;
 
-      function clearStates() {
-        avatars.forEach(a => a.classList.remove('is-hovered', 'is-dimmed'));
-      }
+      groups.forEach(group => {
+        const avatars = group.querySelectorAll('.avatar');
 
-      avatars.forEach(av => {
-        av.addEventListener('mouseenter', () => {
-          avatars.forEach(other => {
-            if (other === av) {
-              other.classList.add('is-hovered');
-              other.classList.remove('is-dimmed');
-            } else {
-              other.classList.add('is-dimmed');
-              other.classList.remove('is-hovered');
+        function clearStates() {
+          avatars.forEach(a => a.classList.remove('is-hovered', 'is-dimmed'));
+        }
+
+        avatars.forEach(av => {
+          av.addEventListener('mouseenter', () => {
+            avatars.forEach(other => {
+              if (other === av) {
+                other.classList.add('is-hovered');
+                other.classList.remove('is-dimmed');
+              } else {
+                other.classList.add('is-dimmed');
+                other.classList.remove('is-hovered');
+              }
+            });
+          });
+
+          av.addEventListener('mouseleave', () => {
+            clearStates();
+          });
+
+          // Touch screens tap support
+          av.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const wasActive = av.classList.contains('is-hovered');
+            clearStates();
+            if (!wasActive) {
+              av.classList.add('is-hovered');
+              avatars.forEach(other => {
+                if (other !== av) other.classList.add('is-dimmed');
+              });
             }
           });
         });
 
-        av.addEventListener('mouseleave', () => {
-          clearStates();
-        });
-
-        // Touch screens tap support
-        av.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const wasActive = av.classList.contains('is-hovered');
-          clearStates();
-          if (!wasActive) {
-            av.classList.add('is-hovered');
-            avatars.forEach(other => {
-              if (other !== av) other.classList.add('is-dimmed');
-            });
-          }
-        });
+        // Remove tap active state when tapping elsewhere
+        document.addEventListener('click', clearStates);
       });
-
-      // Remove tap active state when tapping elsewhere
-      document.addEventListener('click', clearStates);
     })();
 
     // ── Interactive Phone Cluster Swiper (Click, Hover & Swipe) ──────
@@ -2419,8 +2736,28 @@
           });
         }
 
+        function rotateNext() {
+          const rightPhone = phones.find(p => getSlot(p) === 'pos-right');
+          if (rightPhone) rotateToPhone(rightPhone);
+        }
+
+        function rotatePrev() {
+          const leftPhone = phones.find(p => getSlot(p) === 'pos-left');
+          if (leftPhone) rotateToPhone(leftPhone);
+        }
+
+        let hasDragged = false;
+        let isMouseDown = false;
+        let mouseStartX = 0;
+        let mouseDiffX = 0;
+
         phones.forEach(phone => {
           phone.addEventListener('click', (e) => {
+            if (hasDragged) {
+              e.preventDefault();
+              e.stopPropagation();
+              return;
+            }
             if (!phone.classList.contains('is-active')) {
               e.stopPropagation();
               rotateToPhone(phone);
@@ -2435,32 +2772,252 @@
           });
         });
 
+        // Mouse Drag Support (Drag horizontally to cycle placeholders)
+        container.addEventListener('mousedown', (e) => {
+          isMouseDown = true;
+          hasDragged = false;
+          mouseStartX = e.pageX;
+          mouseDiffX = 0;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+          if (!isMouseDown) return;
+          mouseDiffX = e.pageX - mouseStartX;
+          if (Math.abs(mouseDiffX) > 8) {
+            hasDragged = true;
+          }
+        });
+
+        window.addEventListener('mouseup', () => {
+          if (!isMouseDown) return;
+          isMouseDown = false;
+          if (hasDragged && Math.abs(mouseDiffX) > 30) {
+            if (mouseDiffX < 0) {
+              rotateNext();
+            } else {
+              rotatePrev();
+            }
+          }
+          setTimeout(() => { hasDragged = false; }, 60);
+        });
+
+        // Horizontal Mouse Wheel / Trackpad Gesture
+        let wheelDebounce = null;
+        container.addEventListener('wheel', (e) => {
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
+            e.preventDefault();
+            if (!wheelDebounce) {
+              if (e.deltaX > 0) rotateNext();
+              else rotatePrev();
+              wheelDebounce = setTimeout(() => { wheelDebounce = null; }, 380);
+            }
+          }
+        }, { passive: false });
+
         // Mobile Touch Gesture Support (Swipe left/right)
         let touchStartX = 0;
         let touchStartY = 0;
+        let touchDiffX = 0;
+        let touchDiffY = 0;
 
         container.addEventListener('touchstart', (e) => {
           if (!e.changedTouches || e.changedTouches.length === 0) return;
           touchStartX = e.changedTouches[0].screenX;
           touchStartY = e.changedTouches[0].screenY;
+          touchDiffX = 0;
+          touchDiffY = 0;
+        }, { passive: true });
+
+        container.addEventListener('touchmove', (e) => {
+          if (!e.changedTouches || e.changedTouches.length === 0) return;
+          touchDiffX = e.changedTouches[0].screenX - touchStartX;
+          touchDiffY = e.changedTouches[0].screenY - touchStartY;
         }, { passive: true });
 
         container.addEventListener('touchend', (e) => {
-          if (!e.changedTouches || e.changedTouches.length === 0) return;
-          const diffX = e.changedTouches[0].screenX - touchStartX;
-          const diffY = e.changedTouches[0].screenY - touchStartY;
-
-          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
-            if (diffX < 0) {
-              const rightPhone = phones.find(p => getSlot(p) === 'pos-right');
-              if (rightPhone) rotateToPhone(rightPhone);
+          if (Math.abs(touchDiffX) > Math.abs(touchDiffY) && Math.abs(touchDiffX) > 30) {
+            if (touchDiffX < 0) {
+              rotateNext();
             } else {
-              const leftPhone = phones.find(p => getSlot(p) === 'pos-left');
-              if (leftPhone) rotateToPhone(leftPhone);
+              rotatePrev();
             }
           }
         }, { passive: true });
       });
+    })();
+
+    // ── Automated Ledger 3/4 Phone Screen Carousel with Autoplay & Gestures ──
+    (function initLedgerCarousel() {
+      const windowEl = document.getElementById('ledger-window');
+      const track = document.getElementById('ledger-carousel-track');
+      if (!windowEl || !track) return;
+
+      const cards = Array.from(track.querySelectorAll('.ledger-card'));
+      const dots = Array.from(document.querySelectorAll('#ledger-dots .ledger-dot'));
+      if (cards.length === 0) return;
+
+      let currentIndex = 0;
+      let autoplayTimer = null;
+      const autoplayInterval = 3800; // Auto-scrolls smoothly every 3.8s
+
+      function updateCarousel(animate = true) {
+        if (!animate) {
+          track.style.transition = 'none';
+        } else {
+          track.style.transition = 'transform 600ms cubic-bezier(0.22, 1, 0.36, 1)';
+        }
+
+        const targetCard = cards[currentIndex];
+        const windowWidth = windowEl.offsetWidth;
+        const cardLeft = targetCard.offsetLeft;
+        const cardWidth = targetCard.offsetWidth;
+
+        // Exactly center targetCard in the carousel window
+        const offset = (windowWidth / 2) - (cardLeft + cardWidth / 2);
+        track.style.transform = `translateX(${offset}px)`;
+
+        // Update card active classes
+        cards.forEach((card, idx) => {
+          if (idx === currentIndex) {
+            card.classList.add('is-active');
+            card.setAttribute('aria-hidden', 'false');
+          } else {
+            card.classList.remove('is-active');
+            card.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        // Update pagination indicators
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.add('is-active');
+          } else {
+            dot.classList.remove('is-active');
+          }
+        });
+      }
+
+      function goToIndex(idx) {
+        currentIndex = (idx + cards.length) % cards.length;
+        updateCarousel(true);
+      }
+
+      function nextSlide() {
+        goToIndex(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToIndex(currentIndex - 1);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayTimer = setInterval(nextSlide, autoplayInterval);
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      // Initial alignment & window resize handler
+      setTimeout(() => updateCarousel(false), 60);
+      window.addEventListener('resize', () => updateCarousel(false));
+
+      // Start autoplay
+      startAutoplay();
+
+      // Pause on hover, resume on mouse leave
+      windowEl.addEventListener('mouseenter', stopAutoplay);
+      windowEl.addEventListener('mouseleave', startAutoplay);
+
+      // Card click: clicking side cards scrolls directly to them
+      cards.forEach((card, idx) => {
+        card.addEventListener('click', () => {
+          if (idx !== currentIndex) {
+            goToIndex(idx);
+            startAutoplay();
+          }
+        });
+      });
+
+      // Dot click navigation
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+          goToIndex(idx);
+          startAutoplay();
+        });
+      });
+
+      // Touch & Mouse Drag Gesture Support
+      let startX = 0;
+      let currentTranslate = 0;
+      let isDragging = false;
+
+      function getTrackTranslateX() {
+        const style = window.getComputedStyle(track);
+        const matrix = new WebKitCSSMatrix(style.transform);
+        return matrix.m41;
+      }
+
+      function onTouchStart(e) {
+        stopAutoplay();
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        currentTranslate = getTrackTranslateX();
+        track.style.transition = 'none';
+      }
+
+      function onTouchMove(e) {
+        if (!isDragging) return;
+        const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        const diffX = currentX - startX;
+        track.style.transform = `translateX(${currentTranslate + diffX}px)`;
+      }
+
+      function onTouchEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        const endX = e.type.includes('mouse') ? e.pageX : (e.changedTouches ? e.changedTouches[0].clientX : startX);
+        const diffX = endX - startX;
+
+        // 35px threshold to advance slide
+        if (diffX < -35) {
+          nextSlide();
+        } else if (diffX > 35) {
+          prevSlide();
+        } else {
+          updateCarousel(true); // Snap back to current
+        }
+        startAutoplay();
+      }
+
+      // Touch events
+      windowEl.addEventListener('touchstart', onTouchStart, { passive: true });
+      windowEl.addEventListener('touchmove', onTouchMove, { passive: true });
+      windowEl.addEventListener('touchend', onTouchEnd, { passive: true });
+
+      // Mouse drag events
+      windowEl.addEventListener('mousedown', onTouchStart);
+      windowEl.addEventListener('mousemove', onTouchMove);
+      windowEl.addEventListener('mouseup', onTouchEnd);
+
+      // Horizontal mouse wheel scroll support
+      let wheelDebounce = null;
+      windowEl.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) {
+          e.preventDefault();
+          stopAutoplay();
+          if (!wheelDebounce) {
+            if (e.deltaX > 0) nextSlide();
+            else prevSlide();
+            wheelDebounce = setTimeout(() => { wheelDebounce = null; }, 400);
+          }
+          startAutoplay();
+        }
+      }, { passive: false });
     })();
   </script>
 
