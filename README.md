@@ -6,7 +6,6 @@
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-191919?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Fa-Reedah/Yauwa_Landing_Page)
 [![Architecture](https://img.shields.io/badge/Architecture-Zero--Dependency%20Vanilla%20Web-EAB308?style=for-the-badge&logo=javascript&logoColor=black)](https://github.com/Fa-Reedah/Yauwa_Landing_Page)
 [![Design System](https://img.shields.io/badge/Design-Editorial%20Paper%20%26%20Glass-C0392B?style=for-the-badge&logo=css3&logoColor=white)](https://github.com/Fa-Reedah/Yauwa_Landing_Page)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
 ---
 
