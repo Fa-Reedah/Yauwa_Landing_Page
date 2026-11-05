@@ -1474,75 +1474,311 @@
       }
     }
 
-    /* ── Desktop Continuity Section ───────────────────────────────────── */
+    /* ── Language Section (Yauwa Speaks Your Language) ─────────────────── */
     .desktop-continuity {
       position: relative;
-      padding: clamp(20px, 14vh, 10px) 24px;
-      text-align: center;
+      width: 100%;
       max-width: 1240px;
       margin-inline: auto;
-      margin-top: 26px;;
+      padding: clamp(40px, 8vh, 76px) clamp(16px, 3.5vw, 32px);
+      text-align: center;
+      box-sizing: border-box;
+      background: transparent;
     }
 
-    .sync-window {
-      margin-top: 48px;
-      border-radius: 28px;
-      background: #FFFFFF;
-      border: 1px solid rgba(25, 25, 25, 0.1);
-      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.09);
+    /* ── Video Placeholders Background (Initial Background to Powder Blue) ── */
+    .lang-video-grid-wrap {
+      width: 100%;
+      max-width: 960px;
+      margin: clamp(28px, 4.5vh, 46px) auto 0;
+      box-sizing: border-box;
+      position: relative;
+      border-radius: clamp(20px, 3.2vw, 36px);
+      padding: clamp(18px, 3.2vw, 40px) clamp(12px, 2.4vw, 32px);
+      /* Whisper-soft atmospheric teal gradient rooted in Yauwa canvas (#FAF8F3) */
+      background:
+        radial-gradient(
+          ellipse 100% 65% at 50% 85%,
+          rgba(165, 214, 212, 0.20) 0%,
+          rgba(195, 227, 225, 0.10) 42%,
+          rgba(250, 248, 243, 0) 100%
+        ),
+        linear-gradient(
+          180deg,
+          #FAF8F3 0%,
+          #FAF8F3 25%,
+          #F4F8F7 50%,
+          #EAF3F2 75%,
+          #DCEEEB 100%
+        );
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      border-top-color: transparent;
+      box-shadow:
+        0 14px 36px -10px rgba(21, 122, 118, 0.04),
+        0 4px 14px -2px rgba(0, 0, 0, 0.015);
+    }
+
+    .lang-video-grid {
+      display: grid !important;
+      /* Strict 2 columns on all viewports: desktop, tablet, and mobile */
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      grid-template-rows: repeat(2, auto) !important;
+      gap: clamp(10px, 2vw, 22px);
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* Individual Video Placeholder Card */
+    .video-card {
+      min-width: 0; /* Prevents grid blowout */
+      position: relative;
+      width: 100%;
+      border-radius: clamp(14px, 2.2vw, 22px);
       overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 900px) {
-      .sync-window {
-        grid-template-columns: 240px 1fr 340px;
-        text-align: left;
-      }
-    }
-
-    .sync-sidebar {
-      background: #F8F7F4;
-      border-right: 1px solid rgba(25, 25, 25, 0.08);
-      padding: 24px;
-    }
-
-    .sync-feed {
-      padding: 28px;
       background: #FFFFFF;
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      box-shadow:
+        0 12px 32px -8px rgba(21, 122, 118, 0.08),
+        0 4px 12px -2px rgba(0, 0, 0, 0.03),
+        inset 0 1px 2px rgba(255, 255, 255, 1);
+      transition: transform 300ms var(--ease-wabi), box-shadow 300ms var(--ease-wabi), border-color 300ms ease;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      box-sizing: border-box;
     }
 
-    .sync-mobile-pane {
-      background: #FAF8F5;
-      border-left: 1px solid rgba(25, 25, 25, 0.08);
-      padding: 24px;
+    .video-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(21, 122, 118, 0.4);
+      box-shadow:
+        0 20px 42px -10px rgba(21, 122, 118, 0.16),
+        0 6px 16px -2px rgba(21, 122, 118, 0.06),
+        inset 0 1px 2px rgba(255, 255, 255, 1);
+    }
+
+    /* Strict 16:9 aspect-ratio container matching video source format */
+    .video-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(145deg, #FAF8F3 0%, #F1F6F5 52%, #E2EDEB 100%);
+    }
+
+    /* Embedded Video Element */
+    .lang-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 1;
+      background: transparent;
+    }
+
+    /* Empty State & Visual Overlay */
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(8px, 1.8vw, 16px);
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+
+    /* Subtle background texture */
+    .video-overlay-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.035;
+      background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+      background-size: 16px 16px;
+      pointer-events: none;
+    }
+
+    /* Language Name Pill Badge */
+    .video-lang-badge {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(4px, 0.8vw, 6px);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      border-radius: 999vw;
+      padding: clamp(3px, 0.6vw, 5px) clamp(8px, 1.4vw, 13px);
+      font-family: var(--face);
+      font-size: clamp(10px, 1.9vw, 13px);
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .video-lang-dot {
+      width: clamp(5px, 0.9vw, 7px);
+      height: clamp(5px, 0.9vw, 7px);
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .video-card[data-language="yoruba"] .video-lang-dot {
+      background: #D97706; /* Warm gold */
+    }
+
+    .video-card[data-language="igbo"] .video-lang-dot {
+      background: var(--terracotta); /* Igbo scarlet */
+    }
+
+    .video-card[data-language="pidgin"] .video-lang-dot {
+      background: #2563EB; /* Vibrant cobalt */
+    }
+
+    /* Voice / Sound Toggle Button */
+    .video-sound-btn {
+      align-self: flex-end;
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(4px, 0.8vw, 6px);
+      background: rgba(18, 18, 18, 0.68);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999vw;
+      padding: clamp(3px, 0.6vw, 5px) clamp(8px, 1.3vw, 12px);
+      font-size: clamp(10px, 1.6vw, 12px);
+      font-family: var(--face);
+      color: #FFFFFF;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: background 200ms ease, transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+      user-select: none;
+      -webkit-user-select: none;
+      outline: none;
+      line-height: 1.2;
+    }
+
+    .video-sound-btn:hover {
+      background: rgba(21, 122, 118, 0.92);
+      border-color: rgba(255, 255, 255, 0.55);
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(21, 122, 118, 0.35);
+    }
+
+    .video-sound-btn:active {
+      transform: scale(0.96);
+    }
+
+    .video-sound-btn:focus-visible {
+      outline: 2px solid #FFFFFF;
+      outline-offset: 2px;
+    }
+
+    .video-sound-btn svg {
+      width: clamp(11px, 1.8vw, 14px);
+      height: clamp(11px, 1.8vw, 14px);
+      flex-shrink: 0;
+    }
+
+    .video-sound-btn .sound-icon-active {
+      display: none;
+    }
+
+    .video-sound-btn.is-unmuted {
+      background: #157A76;
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 14px rgba(21, 122, 118, 0.5);
+    }
+
+    .video-sound-btn.is-unmuted .sound-icon-muted {
+      display: none;
+    }
+
+    .video-sound-btn.is-unmuted .sound-icon-active {
+      display: block;
     }
 
     /* ── Closing CTA Section ──────────────────────────────────────────── */
     .closing {
-      padding: clamp(100px, 16vh, 180px) 24px;
+      padding-top: clamp(64px, 10vh, 100px);
+      padding-bottom: clamp(38px, 5.5vh, 56px);
+      padding-inline: 24px;
       text-align: center;
       max-width: 900px;
       margin-inline: auto;
     }
 
     .closing .sec-title {
-      font-size: clamp(40px, 6.8vw, 92px);
-      margin-bottom: 24px;
+      font-family: var(--face-serif);
+      font-weight: 450;
+      /* Fluid scaling matching Section 2 & 3 so headline stays balanced across screens */
+      font-size: clamp(19px, 5.8vw, 55.55px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      max-width: 820px;
+      margin: 0 auto clamp(12px, 1.8vh, 16px);
+      text-wrap: balance;
+    }
+
+    .closing .sec-title .title-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .closing {
+        padding-inline: 16px;
+      }
+    }
+
+    .closing .sec-desc {
+      font-family: var(--face);
+      font-weight: 550;
+      font-size: clamp(13px, 3.2vw, 17px);
+      line-height: 1.45;
+      letter-spacing: -0.012em;
+      color: var(--grey-500);
+      max-width: 620px;
+      margin: 0 auto clamp(22px, 3.2vh, 32px);
+      text-wrap: balance;
+    }
+
+    .closing-btn-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 0 auto;
     }
 
     /* ── Footer ───────────────────────────────────────────────────────── */
     .foot {
       position: relative;
-      z-index: 10;
+      z-index: 120; /* Sits cleanly above fold-fade overlay so footer icons remain 100% visible and unblurred */
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 24px 32px;
+      padding: clamp(18px, 2.8vh, 26px) clamp(16px, 3.5vw, 32px);
       font-size: 14.5px;
       color: var(--grey-500);
       border-top: 1px solid rgba(25, 25, 25, 0.08);
+      background-color: var(--canvas);
     }
 
     .foot-mark svg {
@@ -2361,110 +2597,148 @@
         <p class="sec-desc">Understands Hausa, Igbo, Yoruba and Pidgin. <br> More languages coming soon.</p>
       </div>
 
-      <div class="sync-window">
-        <!-- Sidebar -->
-        <div class="sync-sidebar">
-          <div
-            style="font-family: var(--face-serif); font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 24px;">
-            Yauwa Studio</div>
-          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; font-weight: 500;">
-            <div style="color: var(--teal); font-weight: 700; display: flex; align-items: center; gap: 8px;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="18" y1="20" x2="18" y2="10" />
-                <line x1="12" y1="20" x2="12" y2="4" />
-                <line x1="6" y1="20" x2="6" y2="14" />
-              </svg>
-              <span>Provisions Ledger</span>
-            </div>
-            <div style="color: #666; display: flex; align-items: center; gap: 8px;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path
-                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                <line x1="12" y1="22.08" x2="12" y2="12" />
-              </svg>
-              <span>Stock Thresholds</span>
-            </div>
-            <div style="color: #666; display: flex; align-items: center; gap: 8px;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-              <span>Market Co-op</span>
-            </div>
-            <div style="color: #666; display: flex; align-items: center; gap: 8px;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="3" />
-                <path
-                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-              </svg>
-              <span>WhatsApp Settings</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Main Feed -->
-        <div class="sync-feed">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3 style="font-family: var(--face-serif); font-size: 22px; font-weight: 700;">Live Feed</h3>
-            <span
-              style="font-size: 11px; background: rgba(21, 122, 118, 0.1); color: var(--teal); padding: 4px 10px; border-radius: 999vw; font-weight: 700;">Syncing</span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <div
-              style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #FAF8F5; border-radius: 12px;">
-              <div>
-                <div style="font-size: 13px; font-weight: 600;">2 Bread to Mr. Akpan</div>
-                <div style="font-size: 11px; color: #777;">Voice recorded via WhatsApp</div>
+      <!-- 2x2 Video Grid: Yauwa Speaks Your Language -->
+      <div class="lang-video-grid-wrap">
+        <div class="lang-video-grid" role="region" aria-label="Yauwa multilingual video demonstrations">
+          
+          <!-- 1. Hausa Video Tile -->
+          <div class="video-card" data-language="hausa" role="article" aria-label="Hausa video demonstration">
+            <div class="video-container">
+              <video class="lang-video" playsinline muted preload="auto" aria-label="Hausa demonstration video">
+                <source src="videos/gemini_generated_video_3aeaa80c.mp4" type="video/mp4">
+              </video>
+              <div class="video-overlay-bg"></div>
+              <div class="video-overlay">
+                <div class="video-lang-badge">
+                  <span class="video-lang-dot"></span>
+                  <span>Hausa</span>
+                </div>
+                <button class="video-sound-btn is-muted" type="button" aria-label="Turn on sound for Hausa video" title="Turn on sound">
+                  <svg class="sound-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                  <svg class="sound-icon-active" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                  <span class="sound-label">Unmute</span>
+                </button>
               </div>
-              <div style="font-weight: 700; color: var(--teal); font-size: 14px;">+₦5,000</div>
             </div>
+          </div>
 
-            <div
-              style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #FAF8F5; border-radius: 12px;">
-              <div>
-                <div style="font-size: 13px; font-weight: 600;">1 Bag Pure Water to Mama Nkechi</div>
-                <div style="font-size: 11px; color: #777;">Voice recorded via WhatsApp</div>
+          <!-- 2. Yoruba Video Tile -->
+          <div class="video-card" data-language="yoruba" role="article" aria-label="Yoruba video demonstration">
+            <div class="video-container">
+              <video class="lang-video" playsinline muted preload="auto" aria-label="Yoruba demonstration video">
+                <source src="videos/gemini_generated_video_0d8bfbf2.mp4" type="video/mp4">
+              </video>
+              <div class="video-overlay-bg"></div>
+              <div class="video-overlay">
+                <div class="video-lang-badge">
+                  <span class="video-lang-dot"></span>
+                  <span>Yoruba</span>
+                </div>
+                <button class="video-sound-btn is-muted" type="button" aria-label="Turn on sound for Yoruba video" title="Turn on sound">
+                  <svg class="sound-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                  <svg class="sound-icon-active" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                  <span class="sound-label">Unmute</span>
+                </button>
               </div>
-              <div style="font-weight: 700; color: var(--teal); font-size: 14px;">+₦400</div>
             </div>
           </div>
-        </div>
 
-        <!-- Mobile Replica Pane -->
-        <div class="sync-mobile-pane">
-          <div style="font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; margin-bottom: 12px;">
-            Real-Time Mobile Mirror</div>
-          <div style="background: #FFF; border-radius: 16px; padding: 16px; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
-            <div style="font-size: 12px; font-weight: 600; color: var(--teal); margin-bottom: 4px;">WhatsApp Voice Note
+          <!-- 3. Igbo Video Tile -->
+          <div class="video-card" data-language="igbo" role="article" aria-label="Igbo video demonstration">
+            <div class="video-container">
+              <video class="lang-video" playsinline muted preload="auto" aria-label="Igbo demonstration video">
+                <source src="videos/gemini_generated_video_101ecc40.mp4" type="video/mp4">
+              </video>
+              <div class="video-overlay-bg"></div>
+              <div class="video-overlay">
+                <div class="video-lang-badge">
+                  <span class="video-lang-dot"></span>
+                  <span>Igbo</span>
+                </div>
+                <button class="video-sound-btn is-muted" type="button" aria-label="Turn on sound for Igbo video" title="Turn on sound">
+                  <svg class="sound-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                  <svg class="sound-icon-active" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                  <span class="sound-label">Unmute</span>
+                </button>
+              </div>
             </div>
-            <div style="font-size: 11px; color: #555;">“I don sell two bread”</div>
-            <div style="margin-top: 10px; font-size: 10px; color: #888;">Just now • Verified by bot</div>
           </div>
+
+          <!-- 4. Pidgin Video Tile -->
+          <div class="video-card" data-language="pidgin" role="article" aria-label="Pidgin video demonstration">
+            <div class="video-container">
+              <video class="lang-video" playsinline muted preload="auto" aria-label="Pidgin demonstration video">
+                <source src="videos/gemini_generated_video_24b8d307.mp4" type="video/mp4">
+              </video>
+              <div class="video-overlay-bg"></div>
+              <div class="video-overlay">
+                <div class="video-lang-badge">
+                  <span class="video-lang-dot"></span>
+                  <span>Pidgin</span>
+                </div>
+                <button class="video-sound-btn is-muted" type="button" aria-label="Turn on sound for Pidgin video" title="Turn on sound">
+                  <svg class="sound-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                  </svg>
+                  <svg class="sound-icon-active" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                  <span class="sound-label">Unmute</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
     <!-- ── 4. CLOSING CTA SECTION ─────────────────────────────────────── -->
     <section class="closing">
-      <h2 class="sec-title">Let Yauwa handle your next market day</h2>
-      <p class="sec-desc" style="margin-bottom: 40px;">More of what you want to do. Less of what you have to.</p>
+      <h2 class="sec-title">
+        <span class="title-line">Let Yauwa handle your</span>
+        <span class="title-line">next market day</span>
+      </h2>
+      <p class="sec-desc">More of what you want to do. Less of what you have to.</p>
 
-      <div class="mgb mgb--hero" style="margin-inline: auto;">
-        <button class="mgb-btn" onclick="openAppModal(event)">
-          <span class="mgb-label" style="font-size: 18px; padding-inline: 42px;">
-            Get Yauwa
-            <span class="mgb-shine" aria-hidden="true"></span>
-          </span>
-          <span class="mgb-ring" aria-hidden="true"></span>
-        </button>
+      <div class="closing-btn-wrap">
+        <div class="mgb mgb--header">
+          <button class="mgb-btn" onclick="openAppModal(event)">
+            <span class="mgb-label">
+              Get Yauwa
+              <span class="mgb-shine" aria-hidden="true"></span>
+            </span>
+            <span class="mgb-ring" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -3105,6 +3379,155 @@
           startAutoplay();
         }
       }, { passive: false });
+      // ── Language Video Autoplay, 6-Second Looping, and Audio Controls ──
+      (function initLanguageVideos() {
+        const section = document.querySelector('.desktop-continuity');
+        const videoCards = document.querySelectorAll('.video-card');
+        const videos = Array.from(document.querySelectorAll('.lang-video'));
+        if (!videos.length) return;
+
+        const LOOP_DURATION = 6.0; // Strictly loop within first 6 seconds
+
+        // Ensure all videos start muted (vital for browser autoplay policy)
+        videos.forEach(video => {
+          video.muted = true;
+          video.volume = 1.0;
+        });
+
+        // 1. High-frequency 6-second loop clamp (never overshoot into second 7)
+        function monitorVideoLoops() {
+          for (let i = 0; i < videos.length; i++) {
+            const v = videos[i];
+            if (!v.paused && v.currentTime >= LOOP_DURATION) {
+              v.currentTime = 0;
+            }
+          }
+          requestAnimationFrame(monitorVideoLoops);
+        }
+        requestAnimationFrame(monitorVideoLoops);
+
+        // Fallback timeupdate clamp
+        videos.forEach(v => {
+          v.addEventListener('timeupdate', () => {
+            if (v.currentTime >= LOOP_DURATION) {
+              v.currentTime = 0;
+            }
+          });
+        });
+
+        // Helper to update button state
+        function updateSoundButtonState(btn, isMuted) {
+          if (!btn) return;
+          const label = btn.querySelector('.sound-label');
+          if (isMuted) {
+            btn.classList.remove('is-unmuted');
+            btn.classList.add('is-muted');
+            btn.setAttribute('aria-label', 'Turn on sound');
+            btn.setAttribute('title', 'Turn on sound');
+            if (label) label.textContent = 'Unmute';
+          } else {
+            btn.classList.remove('is-muted');
+            btn.classList.add('is-unmuted');
+            btn.setAttribute('aria-label', 'Mute sound');
+            btn.setAttribute('title', 'Mute sound');
+            if (label) label.textContent = 'Sound On';
+          }
+        }
+
+        // 2. Interactive Sound Toggle Button on each card
+        videoCards.forEach(card => {
+          const video = card.querySelector('.lang-video');
+          const soundBtn = card.querySelector('.video-sound-btn');
+          if (!video) return;
+
+          function toggleSound(e) {
+            if (e) {
+              e.stopPropagation();
+            }
+            if (video.muted) {
+              // Mute all other videos first so only one voice speaks clearly
+              videos.forEach(otherVideo => {
+                if (otherVideo !== video) {
+                  otherVideo.muted = true;
+                  const otherBtn = otherVideo.closest('.video-card')?.querySelector('.video-sound-btn');
+                  updateSoundButtonState(otherBtn, true);
+                }
+              });
+              video.muted = false;
+              updateSoundButtonState(soundBtn, false);
+              if (video.paused) {
+                video.play().catch(() => {});
+              }
+            } else {
+              video.muted = true;
+              updateSoundButtonState(soundBtn, true);
+            }
+          }
+
+          if (soundBtn) {
+            soundBtn.addEventListener('click', toggleSound);
+          }
+          card.addEventListener('click', (e) => {
+            // Clicking anywhere on card also toggles voice for convenience
+            if (e.target.closest('.video-sound-btn')) return;
+            toggleSound(e);
+          });
+        });
+
+        // 3. Viewport Scroll Observer: Start playing when scrolled in, stop when scrolled away
+        let isSectionVisible = false;
+
+        function playAllVideos() {
+          videos.forEach(video => {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(() => {
+                // If autoplay was blocked, keep muted and retry
+                video.muted = true;
+                const btn = video.closest('.video-card')?.querySelector('.video-sound-btn');
+                updateSoundButtonState(btn, true);
+                video.play().catch(() => {});
+              });
+            }
+          });
+        }
+
+        function pauseAllVideos() {
+          videos.forEach(video => {
+            video.pause();
+          });
+        }
+
+        if ('IntersectionObserver' in window && section) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                isSectionVisible = true;
+                playAllVideos();
+              } else {
+                isSectionVisible = false;
+                pauseAllVideos();
+              }
+            });
+          }, {
+            threshold: 0.15 // Triggers as soon as section enters view
+          });
+
+          observer.observe(section);
+        } else {
+          // Fallback if IntersectionObserver not supported
+          playAllVideos();
+        }
+
+        // Pause when tab is inactive, resume if section is visible
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            pauseAllVideos();
+          } else if (isSectionVisible) {
+            playAllVideos();
+          }
+        });
+      })();
     })();
   </script>
 
