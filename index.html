@@ -1460,7 +1460,9 @@
         inset 0 1px 2px rgba(255, 255, 255, 0.95);
     }
 
-    .wa-screen * {
+    .wa-screen *,
+    .wa-app-window,
+    .wa-app-window * {
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
@@ -2076,6 +2078,213 @@
       .wa-live-dot {
         animation: none !important;
       }
+    }
+
+    /* ── Compact WhatsApp Variant (Used in Orbital Cluster & Small Cards) ── */
+    .phone-screen.phone-screen--compact-app {
+      padding: 0 !important;
+      background: #EFEAE2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    .wa-app-window {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .wa-app-window--compact {
+      font-size: 13px;
+    }
+
+    .wa-status--compact {
+      padding: 5px 12px 3px;
+      font-size: 10px;
+    }
+
+    .wa-status--compact .wa-status-time {
+      font-size: 10.5px;
+    }
+
+    .wa-status--compact .wa-status-notch {
+      width: 60px;
+      height: 13px;
+      padding: 0 5px;
+    }
+
+    .wa-header--compact {
+      padding: 5px 10px 6px;
+    }
+
+    .wa-header--compact .wa-header-avatar {
+      width: 27px;
+      height: 27px;
+      font-size: 11.5px;
+    }
+
+    .wa-header--compact .wa-header-name {
+      font-size: 12.5px;
+      gap: 4px;
+    }
+
+    .wa-header--compact .wa-header-status {
+      font-size: 9.5px;
+    }
+
+    .wa-header-lang-pill {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+      padding: 1px 5px;
+      border-radius: 4px;
+      margin-left: 3px;
+    }
+
+    .wa-compact-replay-btn {
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      opacity: 0.85;
+      cursor: pointer;
+      padding: 3px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .wa-compact-replay-btn:hover {
+      opacity: 1;
+      transform: rotate(-30deg);
+    }
+
+    .wa-compact-replay-btn:active {
+      transform: scale(0.92);
+    }
+
+    .wa-chat--compact {
+      padding: 7px 7px 6px;
+      gap: 5px;
+    }
+
+    .wa-chat--compact .wa-chip {
+      font-size: 10px;
+      padding: 2px 8px;
+      margin: 1px 0 3px;
+    }
+
+    .wa-chat--compact .wa-msg--owner {
+      max-width: 90%;
+      padding: 5px 7px 3px;
+    }
+
+    .wa-chat--compact .wa-msg-row--yauwa {
+      max-width: 92%;
+      gap: 5px;
+    }
+
+    .wa-chat--compact .wa-avatar-mini {
+      width: 22px;
+      height: 22px;
+      font-size: 10px;
+    }
+
+    .wa-chat--compact .wa-msg--yauwa {
+      padding: 5px 7px 3px;
+    }
+
+    .wa-chat--compact .wa-vn-player {
+      min-width: 140px;
+      gap: 5px;
+    }
+
+    .wa-chat--compact .wa-vn-btn {
+      width: 22px;
+      height: 22px;
+    }
+
+    .wa-chat--compact .wa-wave {
+      height: 17px;
+      gap: 1.5px;
+    }
+
+    .wa-chat--compact .wa-wave-bar {
+      width: 2px;
+      border-radius: 1px;
+    }
+
+    .wa-chat--compact .wa-vn-dur {
+      font-size: 9px;
+      min-width: 20px;
+    }
+
+    .wa-chat--compact .wa-lang-tag {
+      font-size: 8.5px;
+      padding: 0.5px 4px;
+    }
+
+    .wa-chat--compact .wa-transcript {
+      font-size: 10px;
+      line-height: 1.3;
+      margin-top: 3px;
+      margin-bottom: 1px;
+    }
+
+    .wa-chat--compact .wa-meta {
+      font-size: 8.5px;
+    }
+
+    .wa-card--compact {
+      margin-left: 27px;
+      width: calc(92% - 27px);
+      padding: 5px 8px;
+      font-size: 10.5px;
+      line-height: 1.3;
+      border-radius: 8px;
+      border-left: 3px solid var(--teal);
+      background: #FFFFFF;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.1);
+      color: #191919;
+    }
+
+    .wa-card-content {
+      font-weight: 600;
+      color: #191919;
+      font-size: 10.5px;
+      letter-spacing: -0.01em;
+    }
+
+    .wa-input-bar--compact {
+      padding: 5px 8px 6px;
+      gap: 5px;
+    }
+
+    .wa-field--compact {
+      padding: 5px 9px;
+      font-size: 11px;
+      gap: 5px;
+      border-radius: 16px;
+    }
+
+    .wa-mic-btn--compact {
+      width: 29px;
+      height: 29px;
+    }
+
+    .wa-home-bar--compact {
+      width: 75px;
+      height: 3px;
+      margin: 2px auto 1px;
     }
 
     /* ── Language Section (Yauwa Speaks Your Language) ─────────────────── */
@@ -3645,15 +3854,91 @@
           <div class="mockup-edge-blur mockup-edge-blur--left" aria-hidden="true"></div>
           <div class="mockup-edge-blur mockup-edge-blur--right" aria-hidden="true"></div>
 
-          <!-- 1. PHONE BACK Placeholder -->
+          <!-- 1. PHONE BACK Placeholder (Spoken Sale) -->
           <div class="phone phone--back pos-back" aria-hidden="true" role="button" tabindex="0"
-            aria-label="Blank phone placeholder 1">
-            <div class="phone-screen">
-              <div>
-                <div class="phone-notch"><span class="phone-sensor"></span><span class="phone-camera"></span></div>
-              </div>
-              <div>
-                <div class="phone-home-bar"></div>
+            aria-label="Spoken Sale screen">
+            <div class="phone-screen phone-screen--compact-app">
+              <div class="wa-app-window wa-app-window--compact">
+                <!-- Top Status Bar -->
+                <div class="wa-status wa-status--compact" aria-hidden="true">
+                  <span class="wa-status-time">10:42</span>
+                  <div class="wa-status-notch">
+                    <span class="wa-status-sensor"></span>
+                    <span class="wa-status-cam"></span>
+                  </div>
+                  <div class="wa-status-icons">
+                    <span>5G</span>
+                    <span>● 84%</span>
+                  </div>
+                </div>
+
+                <!-- WhatsApp Chat Header -->
+                <div class="wa-header wa-header--compact">
+                  <div class="wa-header-left">
+                    <span class="wa-back-btn" aria-hidden="true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                      </svg>
+                    </span>
+                    <div class="wa-header-avatar" aria-hidden="true">
+                      <span>Y</span>
+                    </div>
+                    <div class="wa-header-info">
+                      <div class="wa-header-name">
+                        <span>Yauwa Kiosk</span>
+                        <span class="wa-verified-tick" title="Verified business">
+                          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="8" r="7.5" fill="#34B7F1"/>
+                            <path d="M4.5 8L7 10.5L11.5 5.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </span>
+                        <span class="wa-header-lang-pill">Hausa</span>
+                      </div>
+                      <span class="wa-header-status">online</span>
+                    </div>
+                  </div>
+
+                  <div class="wa-header-actions">
+                    <button type="button" class="wa-compact-replay-btn" id="wa-replay-spoken-sale" aria-label="Replay Spoken Sale conversation" title="Replay">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M1 4v6h6"></path>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Internal Scrollable Chat Screen -->
+                <div class="wa-chat wa-chat--compact" id="wa-chat-spoken-sale" role="log" aria-live="polite" aria-label="Spoken Sale WhatsApp conversation"></div>
+
+                <!-- Bottom Input Bar -->
+                <div class="wa-input-bar wa-input-bar--compact">
+                  <div class="wa-field wa-field--compact">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                      <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                      <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span class="wa-field-label">Hold to Speak Sale</span>
+                    <div class="wa-field-icons" aria-hidden="true">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <button type="button" class="wa-mic-btn wa-mic-btn--compact" aria-label="Hold to Speak Sale">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+                      <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                      <line x1="12" y1="19" x2="12" y2="23"></line>
+                      <line x1="8" y1="23" x2="16" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Phone Home Indicator Bar -->
+                <div class="wa-home-bar wa-home-bar--compact" aria-hidden="true"></div>
               </div>
             </div>
           </div>
@@ -4833,179 +5118,21 @@
       })();
     })();
 
-    // ── The WhatsApp You Already Use: Interactive Simulation Component ──
-    (function initWhatsAppMockup() {
-      const section = document.getElementById('sec-ios');
-      const chatContainer = document.getElementById('wa-chat-body');
-      const replayBtn = document.getElementById('wa-replay-btn');
-      if (!section || !chatContainer) return;
+    // ── Reusable WhatsApp Chat Simulation Component ───────────────────────
+    function createWhatsAppChat(config) {
+      const {
+        section,           // DOM element or selector string for trigger section
+        chatContainer,     // DOM element or selector string for messages list
+        replayBtn,         // Optional DOM element or selector string
+        conversation = [], // Data array of message objects
+        isCompact = false  // Boolean for compact variant
+      } = config;
 
-      // Fully editable data array specifying conversation messages
-      const CONVERSATION = [
-        {
-          type: 'chip',
-          text: 'Today'
-        },
-        // 1. 7:45 AM, Hausa
-        {
-          sender: 'owner',
-          type: 'voice',
-          language: 'Hausa',
-          duration: '0:06',
-          durationSec: 6,
-          time: '7:45 AM',
-          transcript: 'Yau na samu burodi goma sha biyar da madarar Peak goma sha biyu.',
-          waveform: [8, 14, 18, 12, 22, 16, 10, 18, 20, 14, 10, 16, 22, 18, 12, 16, 20, 14, 8, 10]
-        },
-        {
-          sender: 'yauwa',
-          type: 'voice',
-          language: 'Hausa',
-          duration: '0:05',
-          durationSec: 5,
-          time: '7:45 AM',
-          transcript: 'Na rubuta kayanka: burodi goma sha biyar da madarar Peak goma sha biyu. Ina kwana, Mallam Idris!',
-          waveform: [6, 10, 16, 20, 14, 8, 18, 22, 16, 12, 20, 16, 10, 14, 18, 20, 12, 8, 14, 8]
-        },
-        // 2. 9:20 AM, Pidgin
-        {
-          sender: 'owner',
-          type: 'voice',
-          language: 'Pidgin',
-          duration: '0:04',
-          durationSec: 4,
-          time: '9:20 AM',
-          transcript: 'I don sell two bread and one Peak milk, four thousand three hundred, cash.',
-          waveform: [8, 16, 22, 14, 18, 10, 14, 20, 16, 12, 18, 22, 14, 8, 12, 18, 14, 10, 6, 8]
-        },
-        {
-          sender: 'yauwa',
-          type: 'voice',
-          language: 'Pidgin',
-          duration: '0:05',
-          durationSec: 5,
-          time: '9:20 AM',
-          transcript: 'I don write am: four thousand three hundred naira, cash. Bread remain thirteen, Peak milk remain eleven.',
-          waveform: [6, 12, 18, 22, 14, 10, 16, 20, 12, 18, 22, 16, 10, 14, 20, 16, 12, 8, 10, 6]
-        },
-        // 3. 11:05 AM, Yoruba
-        {
-          sender: 'owner',
-          type: 'voice',
-          language: 'Yoruba',
-          duration: '0:05',
-          durationSec: 5,
-          time: '11:05 AM',
-          transcript: 'Baba Seun gba búrẹ́dì àti Indomie, ó ní òun á san lọ́la, ẹgbẹ̀rún mẹ́ta àti ààbọ̀.',
-          waveform: [10, 16, 20, 12, 18, 22, 14, 8, 16, 22, 18, 12, 20, 16, 10, 14, 18, 12, 8, 6]
-        },
-        {
-          sender: 'yauwa',
-          type: 'voice',
-          language: 'Yoruba',
-          duration: '0:06',
-          durationSec: 6,
-          time: '11:05 AM',
-          transcript: 'Mo ti kọ ọ́ sílẹ̀: Baba Seun jẹ ọ́ ní ẹgbẹ̀rún mẹ́ta àti ààbọ̀ náírà. Màá rán ọ létí lọ́la.',
-          waveform: [8, 12, 18, 14, 22, 16, 10, 20, 16, 12, 18, 22, 14, 8, 16, 20, 14, 10, 6, 8]
-        },
-        // 4. 1:30 PM, Pidgin
-        {
-          sender: 'owner',
-          type: 'voice',
-          language: 'Pidgin',
-          duration: '0:04',
-          durationSec: 4,
-          time: '1:30 PM',
-          transcript: 'Ada don send fourteen thousand five hundred transfer for the milk carton.',
-          waveform: [8, 14, 22, 18, 12, 16, 20, 14, 10, 18, 22, 14, 8, 12, 16, 20, 12, 8, 6, 8]
-        },
-        {
-          sender: 'yauwa',
-          type: 'voice',
-          language: 'Pidgin',
-          duration: '0:04',
-          durationSec: 4,
-          time: '1:30 PM',
-          transcript: 'I don log am: fourteen thousand five hundred naira, bank transfer.',
-          waveform: [6, 12, 16, 22, 18, 10, 14, 20, 16, 12, 18, 22, 14, 8, 10, 16, 12, 8, 6, 6]
-        },
-        // 5. 4:10 PM, Pidgin
-        {
-          sender: 'yauwa',
-          type: 'voice',
-          language: 'Pidgin',
-          duration: '0:04',
-          durationSec: 4,
-          time: '4:10 PM',
-          transcript: 'Mallam Idris, bread don dey finish o! Three loaf remain for kiosk.',
-          waveform: [8, 16, 20, 14, 18, 22, 12, 16, 20, 14, 10, 18, 22, 16, 12, 14, 18, 10, 6, 6]
-        },
-        {
-          sender: 'owner',
-          type: 'quick_reply',
-          time: '4:10 PM',
-          text: 'Add to Restock List'
-        },
-        {
-          sender: 'yauwa',
-          type: 'voice',
-          language: 'Pidgin',
-          duration: '0:08',
-          durationSec: 8,
-          time: '4:10 PM',
-          transcript: 'I don add am to your market list. Bread fifteen, Cabin biscuits two carton, pure water ten bags. Everything na forty-six thousand, five hundred naira.',
-          waveform: [6, 10, 16, 22, 14, 18, 20, 12, 16, 22, 18, 14, 20, 16, 10, 14, 22, 18, 12, 8]
-        },
-        {
-          sender: 'yauwa',
-          type: 'card',
-          time: '4:10 PM',
-          title: '🛒 Market Restock list',
-          items: [
-            { name: 'Sliced Bread, 15 loaves', amount: '₦24,000' },
-            { name: 'Cabin Biscuits, 2 cartons', amount: '₦18,000' },
-            { name: 'Pure Water, 10 bags', amount: '₦4,500' }
-          ],
-          footer: 'Estimated total: ₦46,500',
-          text: '🛒 Market Restock list / Sliced Bread, 15 loaves · ₦24,000 / Cabin Biscuits, 2 cartons · ₦18,000 / Pure Water, 10 bags · ₦4,500 / Estimated total: ₦46,500'
-        },
-        // 6. 8:00 PM, English
-        {
-          sender: 'owner',
-          type: 'voice',
-          language: 'English',
-          duration: '0:03',
-          durationSec: 3,
-          time: '8:00 PM',
-          transcript: 'Yauwa, how was the market today?',
-          waveform: [8, 14, 20, 16, 22, 18, 12, 16, 22, 14, 10, 16, 20, 14, 8, 12, 18, 12, 8, 6]
-        },
-        {
-          sender: 'yauwa',
-          type: 'voice',
-          language: 'English',
-          duration: '0:12',
-          durationSec: 12,
-          time: '8:00 PM',
-          transcript: 'Good evening, Mallam Idris. Today you sold forty-two thousand five hundred naira. Twenty-eight thousand in cash and fourteen thousand five hundred by transfer. Baba Seun owes you three thousand five hundred. Your book is balanced.',
-          waveform: [6, 12, 18, 22, 16, 10, 14, 20, 16, 12, 18, 22, 14, 20, 16, 10, 14, 22, 18, 12]
-        },
-        {
-          sender: 'yauwa',
-          type: 'card',
-          time: '8:00 PM',
-          title: " Today's book",
-          items: [
-            { name: 'Total spoken sales', amount: '₦42,500' },
-            { name: 'Cash collected', amount: '₦28,000' },
-            { name: 'Bank transfer', amount: '₦14,500' },
-            { name: 'Owed to you', amount: '₦3,500 (Baba Seun)' }
-          ],
-          footer: 'Book balanced.',
-          text: " Today's book / Total spoken sales: ₦42,500 / Cash collected: ₦28,000 / Bank transfer: ₦14,500 / Owed to you: ₦3,500 (Baba Seun) / Book balanced."
-        }
-      ];
+      const secEl = typeof section === 'string' ? document.querySelector(section) : section;
+      const chatEl = typeof chatContainer === 'string' ? document.querySelector(chatContainer) : chatContainer;
+      const replayEl = typeof replayBtn === 'string' ? document.querySelector(replayBtn) : replayBtn;
+
+      if (!secEl || !chatEl) return null;
 
       let activeAudio = null;
       let isRunning = false;
@@ -5019,7 +5146,8 @@
         if (activeAudio) {
           if (activeAudio.animId) cancelAnimationFrame(activeAudio.animId);
           if (activeAudio.btn) {
-            activeAudio.btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+            const iconSize = isCompact ? '8' : '10';
+            activeAudio.btn.innerHTML = `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
             activeAudio.btn.setAttribute('aria-label', activeAudio.origAriaLabel);
           }
           if (activeAudio.bars) {
@@ -5049,8 +5177,9 @@
         const bars = Array.from(bubble.querySelectorAll('.wa-wave-bar'));
         const origDur = durEl ? durEl.textContent : '0:05';
         const origAriaLabel = btn.getAttribute('aria-label') || 'Play voice note';
+        const iconSize = isCompact ? '8' : '10';
 
-        btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+        btn.innerHTML = `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
         btn.setAttribute('aria-label', origAriaLabel.replace(/^Play/, 'Pause'));
 
         const startTime = performance.now();
@@ -5117,16 +5246,28 @@
 
         if (item.type === 'card') {
           const card = document.createElement('div');
-          card.className = 'wa-card wa-msg';
+          card.className = isCompact ? 'wa-card wa-card--compact wa-msg' : 'wa-card wa-msg';
           card.setAttribute('role', 'article');
-          card.setAttribute('aria-label', item.title);
+          card.setAttribute('aria-label', item.title || item.text || 'Notification card');
 
-          let html = `<div class="wa-card-title">${item.title}</div>`;
-          item.items.forEach(it => {
-            html += `<div class="wa-card-item"><span>${it.name}</span><strong>${it.amount}</strong></div>`;
-          });
-          html += `<div class="wa-card-footer"><span>Summary</span><span>${item.footer}</span></div>`;
-          html += `<div class="wa-meta"><span>${item.time}</span></div>`;
+          let html = '';
+          if (item.title) {
+            html += `<div class="wa-card-title">${item.title}</div>`;
+          }
+          if (item.items && item.items.length > 0) {
+            item.items.forEach(it => {
+              html += `<div class="wa-card-item"><span>${it.name}</span><strong>${it.amount}</strong></div>`;
+            });
+          }
+          if (item.footer) {
+            html += `<div class="wa-card-footer"><span>Summary</span><span>${item.footer}</span></div>`;
+          }
+          if (item.text && !item.items) {
+            html += `<div class="wa-card-content">${item.text}</div>`;
+          }
+          if (item.time) {
+            html += `<div class="wa-meta"><span>${item.time}</span></div>`;
+          }
           card.innerHTML = html;
           return card;
         }
@@ -5135,15 +5276,19 @@
           const isOwner = item.sender === 'owner';
           const durationSeconds = item.durationSec || 5;
           const ariaLabel = `Voice note, ${durationSeconds} seconds, ${item.language}`;
+          const iconSize = isCompact ? '8' : '10';
 
-          // Predefined fixed waveform bars
-          const waveBarsHtml = (item.waveform || []).map(h => `<i class="wa-wave-bar" style="height:${h}px"></i>`).join('');
+          // Fixed waveform bars (scaled proportionally if compact)
+          const waveBarsHtml = (item.waveform || []).map(h => {
+            const barHeight = isCompact ? Math.max(3, Math.round(h * 0.75)) : h;
+            return `<i class="wa-wave-bar" style="height:${barHeight}px"></i>`;
+          }).join('');
 
           const bubbleInner = `
             <div class="wa-vn">
               <div class="wa-vn-player">
                 <button type="button" class="wa-vn-btn" data-duration-sec="${durationSeconds}" aria-label="Play ${ariaLabel}" title="Play voice note">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"/>
                   </svg>
                 </button>
@@ -5200,19 +5345,19 @@
       }
 
       function runStep() {
-        if (currentStepIndex >= CONVERSATION.length) {
+        if (currentStepIndex >= conversation.length) {
           isRunning = false;
           return;
         }
 
-        const item = CONVERSATION[currentStepIndex];
+        const item = conversation[currentStepIndex];
         const el = createMessageElement(item, currentStepIndex);
         if (el) {
-          chatContainer.appendChild(el);
-          chatContainer.scrollTop = chatContainer.scrollHeight;
+          chatEl.appendChild(el);
+          chatEl.scrollTop = chatEl.scrollHeight;
         }
 
-        // Special behavior for quick-reply: auto-tap itself after brief pause
+        // Auto-tap quick-reply if present
         if (item.type === 'quick_reply') {
           const qrBtn = el;
           setTimeout(() => {
@@ -5225,7 +5370,7 @@
 
         currentStepIndex++;
 
-        if (currentStepIndex < CONVERSATION.length) {
+        if (currentStepIndex < conversation.length) {
           let nextDelay = 1400;
           if (item.type === 'chip') nextDelay = 700;
           else if (item.type === 'quick_reply') nextDelay = 1800;
@@ -5247,7 +5392,7 @@
         if (!isRunning && currentStepIndex === 0) {
           isRunning = true;
           scheduleNextStep(300);
-        } else if (!isRunning && currentStepIndex < CONVERSATION.length && remainingStepDelay > 0) {
+        } else if (!isRunning && currentStepIndex < conversation.length && remainingStepDelay > 0) {
           isRunning = true;
           stepStartTime = performance.now();
           stepTimeout = setTimeout(() => {
@@ -5270,19 +5415,19 @@
         clearTimeout(stepTimeout);
         stepTimeout = null;
         stopActiveVoiceNote();
-        chatContainer.innerHTML = '';
-        CONVERSATION.forEach((item, idx) => {
+        chatEl.innerHTML = '';
+        conversation.forEach((item, idx) => {
           const el = createMessageElement(item, idx);
           if (el) {
             if (item.type === 'quick_reply') {
               el.classList.add('is-tapped');
               el.textContent = '✓ Added to Restock List';
             }
-            chatContainer.appendChild(el);
+            chatEl.appendChild(el);
           }
         });
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-        currentStepIndex = CONVERSATION.length;
+        chatEl.scrollTop = chatEl.scrollHeight;
+        currentStepIndex = conversation.length;
         isRunning = false;
       }
 
@@ -5290,15 +5435,16 @@
         clearTimeout(stepTimeout);
         stepTimeout = null;
         stopActiveVoiceNote();
-        chatContainer.innerHTML = '';
+        chatEl.innerHTML = '';
         currentStepIndex = 0;
         remainingStepDelay = 0;
         isRunning = true;
         scheduleNextStep(200);
       }
 
-      if (replayBtn) {
-        replayBtn.addEventListener('click', () => {
+      if (replayEl) {
+        replayEl.addEventListener('click', (e) => {
+          e.stopPropagation();
           replay();
         });
       }
@@ -5314,13 +5460,267 @@
             }
           });
         }, {
-          threshold: 0.2
+          threshold: 0.15
         });
-        observer.observe(section);
+        observer.observe(secEl);
       } else {
         startOrResume();
       }
-    })();
+
+      return {
+        replay,
+        pause,
+        startOrResume,
+        renderAllInstant
+      };
+    }
+
+    // ── Main Conversation Data (The WhatsApp You Already Use - #sec-ios) ──
+    const CONVERSATION_MAIN = [
+      {
+        type: 'chip',
+        text: 'Today'
+      },
+      // 1. 7:45 AM, Hausa
+      {
+        sender: 'owner',
+        type: 'voice',
+        language: 'Hausa',
+        duration: '0:06',
+        durationSec: 6,
+        time: '7:45 AM',
+        transcript: 'Yau na samu burodi goma sha biyar da madarar Peak goma sha biyu.',
+        waveform: [8, 14, 18, 12, 22, 16, 10, 18, 20, 14, 10, 16, 22, 18, 12, 16, 20, 14, 8, 10]
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Hausa',
+        duration: '0:05',
+        durationSec: 5,
+        time: '7:45 AM',
+        transcript: 'Na rubuta kayanka: burodi goma sha biyar da madarar Peak goma sha biyu. Ina kwana, Mallam Idris!',
+        waveform: [6, 10, 16, 20, 14, 8, 18, 22, 16, 12, 20, 16, 10, 14, 18, 20, 12, 8, 14, 8]
+      },
+      // 2. 9:20 AM, Pidgin
+      {
+        sender: 'owner',
+        type: 'voice',
+        language: 'Pidgin',
+        duration: '0:04',
+        durationSec: 4,
+        time: '9:20 AM',
+        transcript: 'I don sell two bread and one Peak milk, four thousand three hundred, cash.',
+        waveform: [8, 16, 22, 14, 18, 10, 14, 20, 16, 12, 18, 22, 14, 8, 12, 18, 14, 10, 6, 8]
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Pidgin',
+        duration: '0:05',
+        durationSec: 5,
+        time: '9:20 AM',
+        transcript: 'I don write am: four thousand three hundred naira, cash. Bread remain thirteen, Peak milk remain eleven.',
+        waveform: [6, 12, 18, 22, 14, 10, 16, 20, 12, 18, 22, 16, 10, 14, 20, 16, 12, 8, 10, 6]
+      },
+      // 3. 11:05 AM, Yoruba
+      {
+        sender: 'owner',
+        type: 'voice',
+        language: 'Yoruba',
+        duration: '0:05',
+        durationSec: 5,
+        time: '11:05 AM',
+        transcript: 'Baba Seun gba búrẹ́dì àti Indomie, ó ní òun á san lọ́la, ẹgbẹ̀rún mẹ́ta àti ààbọ̀.',
+        waveform: [10, 16, 20, 12, 18, 22, 14, 8, 16, 22, 18, 12, 20, 16, 10, 14, 18, 12, 8, 6]
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Yoruba',
+        duration: '0:06',
+        durationSec: 6,
+        time: '11:05 AM',
+        transcript: 'Mo ti kọ ọ́ sílẹ̀: Baba Seun jẹ ọ́ ní ẹgbẹ̀rún mẹ́ta àti ààbọ̀ náírà. Màá rán ọ létí lọ́la.',
+        waveform: [8, 12, 18, 14, 22, 16, 10, 20, 16, 12, 18, 22, 14, 8, 16, 20, 14, 10, 6, 8]
+      },
+      // 4. 1:30 PM, Pidgin
+      {
+        sender: 'owner',
+        type: 'voice',
+        language: 'Pidgin',
+        duration: '0:04',
+        durationSec: 4,
+        time: '1:30 PM',
+        transcript: 'Ada don send fourteen thousand five hundred transfer for the milk carton.',
+        waveform: [8, 14, 22, 18, 12, 16, 20, 14, 10, 18, 22, 14, 8, 12, 16, 20, 12, 8, 6, 8]
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Pidgin',
+        duration: '0:04',
+        durationSec: 4,
+        time: '1:30 PM',
+        transcript: 'I don log am: fourteen thousand five hundred naira, bank transfer.',
+        waveform: [6, 12, 16, 22, 18, 10, 14, 20, 16, 12, 18, 22, 14, 8, 10, 16, 12, 8, 6, 6]
+      },
+      // 5. 4:10 PM, Pidgin
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Pidgin',
+        duration: '0:04',
+        durationSec: 4,
+        time: '4:10 PM',
+        transcript: 'Mallam Idris, bread don dey finish o! Three loaf remain for kiosk.',
+        waveform: [8, 16, 20, 14, 18, 22, 12, 16, 20, 14, 10, 18, 22, 16, 12, 14, 18, 10, 6, 6]
+      },
+      {
+        sender: 'owner',
+        type: 'quick_reply',
+        time: '4:10 PM',
+        text: 'Add to Restock List'
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Pidgin',
+        duration: '0:08',
+        durationSec: 8,
+        time: '4:10 PM',
+        transcript: 'I don add am to your market list. Bread fifteen, Cabin biscuits two carton, pure water ten bags. Everything na forty-six thousand, five hundred naira.',
+        waveform: [6, 10, 16, 22, 14, 18, 20, 12, 16, 22, 18, 14, 20, 16, 10, 14, 22, 18, 12, 8]
+      },
+      {
+        sender: 'yauwa',
+        type: 'card',
+        time: '4:10 PM',
+        title: '🛒 Market Restock list',
+        items: [
+          { name: 'Sliced Bread, 15 loaves', amount: '₦24,000' },
+          { name: 'Cabin Biscuits, 2 cartons', amount: '₦18,000' },
+          { name: 'Pure Water, 10 bags', amount: '₦4,500' }
+        ],
+        footer: 'Estimated total: ₦46,500',
+        text: '🛒 Market Restock list / Sliced Bread, 15 loaves · ₦24,000 / Cabin Biscuits, 2 cartons · ₦18,000 / Pure Water, 10 bags · ₦4,500 / Estimated total: ₦46,500'
+      },
+      // 6. 8:00 PM, English
+      {
+        sender: 'owner',
+        type: 'voice',
+        language: 'English',
+        duration: '0:03',
+        durationSec: 3,
+        time: '8:00 PM',
+        transcript: 'Yauwa, how was the market today?',
+        waveform: [8, 14, 20, 16, 22, 18, 12, 16, 22, 14, 10, 16, 20, 14, 8, 12, 18, 12, 8, 6]
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'English',
+        duration: '0:12',
+        durationSec: 12,
+        time: '8:00 PM',
+        transcript: 'Good evening, Mallam Idris. Today you sold forty-two thousand five hundred naira. Twenty-eight thousand in cash and fourteen thousand five hundred by transfer. Baba Seun owes you three thousand five hundred. Your book is balanced.',
+        waveform: [6, 12, 18, 22, 16, 10, 14, 20, 16, 12, 18, 22, 14, 20, 16, 10, 14, 22, 18, 12]
+      },
+      {
+        sender: 'yauwa',
+        type: 'card',
+        time: '8:00 PM',
+        title: " Today's book",
+        items: [
+          { name: 'Total spoken sales', amount: '₦42,500' },
+          { name: 'Cash collected', amount: '₦28,000' },
+          { name: 'Bank transfer', amount: '₦14,500' },
+          { name: 'Owed to you', amount: '₦3,500 (Baba Seun)' }
+        ],
+        footer: 'Book balanced.',
+        text: " Today's book / Total spoken sales: ₦42,500 / Cash collected: ₦28,000 / Bank transfer: ₦14,500 / Owed to you: ₦3,500 (Baba Seun) / Book balanced."
+      }
+    ];
+
+    // ── Spoken Sale Conversation Data (Compact Phone in #sec-multiplayer) ─
+    const CONVERSATION_SPOKEN_SALE = [
+      {
+        type: 'chip',
+        text: 'Today'
+      },
+      // 1. 7:45 AM, Hausa
+      {
+        sender: 'owner',
+        type: 'voice',
+        language: 'Hausa',
+        duration: '0:06',
+        durationSec: 6,
+        time: '7:45 AM',
+        transcript: 'Yau na samu burodi goma sha biyar da madarar Peak goma sha biyu.',
+        waveform: [8, 14, 18, 12, 22, 16, 10, 18, 20, 14, 10, 16, 22, 18, 12, 16, 20, 14, 8, 10]
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Hausa',
+        duration: '0:05',
+        durationSec: 5,
+        time: '7:45 AM',
+        transcript: 'Na rubuta kayanka: burodi goma sha biyar da madarar Peak goma sha biyu. Ina kwana, Mallam Idris!',
+        waveform: [6, 10, 16, 20, 14, 8, 18, 22, 16, 12, 20, 16, 10, 14, 18, 20, 12, 8, 14, 8]
+      },
+      {
+        sender: 'yauwa',
+        type: 'card',
+        time: '7:45 AM',
+        text: '📦 Stock set · Sliced Bread 15 · Peak Milk 12'
+      },
+      // 2. 9:20 AM, Hausa
+      {
+        sender: 'owner',
+        type: 'voice',
+        language: 'Hausa',
+        duration: '0:04',
+        durationSec: 4,
+        time: '9:20 AM',
+        transcript: 'Na sayar da burodi biyu da madarar Peak ɗaya, naira dubu huɗu da ɗari uku, kuɗin hannu.',
+        waveform: [8, 16, 22, 14, 18, 10, 14, 20, 16, 12, 18, 22, 14, 8, 12, 18, 14, 10, 6, 8]
+      },
+      {
+        sender: 'yauwa',
+        type: 'voice',
+        language: 'Hausa',
+        duration: '0:05',
+        durationSec: 5,
+        time: '9:20 AM',
+        transcript: 'Na rubuta: naira dubu huɗu da ɗari uku, kuɗin hannu. Burodi ya rage goma sha uku, madarar Peak ta rage goma sha ɗaya.',
+        waveform: [6, 12, 18, 22, 14, 10, 16, 20, 12, 18, 22, 16, 10, 14, 20, 16, 12, 8, 10, 6]
+      },
+      {
+        sender: 'yauwa',
+        type: 'card',
+        time: '9:20 AM',
+        text: '✅ Logged ₦4,300 · Cash · Bread 13 · Peak Milk 11'
+      }
+    ];
+
+    // Mount WhatsApp Simulation Instance 1: "The WhatsApp you already use" (#sec-ios)
+    createWhatsAppChat({
+      section: document.getElementById('sec-ios'),
+      chatContainer: document.getElementById('wa-chat-body'),
+      replayBtn: document.getElementById('wa-replay-btn'),
+      conversation: CONVERSATION_MAIN,
+      isCompact: false
+    });
+
+    // Mount WhatsApp Simulation Instance 2: "Spoken Sale" (#sec-multiplayer)
+    createWhatsAppChat({
+      section: document.getElementById('sec-multiplayer'),
+      chatContainer: document.getElementById('wa-chat-spoken-sale'),
+      replayBtn: document.getElementById('wa-replay-spoken-sale'),
+      conversation: CONVERSATION_SPOKEN_SALE,
+      isCompact: true
+    });
   </script>
 
   <!-- ── Bottom Viewport Soft Fade (Dissolves fold while scrolling) ── -->
