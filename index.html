@@ -1384,93 +1384,697 @@
       box-sizing: border-box;
     }
 
-    /* ── Interactive Chat Demo in Plate 1 ─────────────────────────────── */
-    .chat-sim {
-      max-width: 540px;
-      margin: 0 auto;
+    /* ── The WhatsApp You Already Use Mockup Component (.wa-*) ─────────── */
+    .wa-mockup-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      position: relative;
     }
 
-    .chat-bubble {
-      padding: 14px 18px;
-      border-radius: 20px;
-      max-width: 88%;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-      animation: blur-in 0.6s var(--ease-expo) both;
+    .wa-phone {
+      width: 100%;
+      max-width: 375px;
+      height: clamp(580px, 80vh, 700px);
+      border-radius: 46px;
+      padding: 10px;
+      background: linear-gradient(140deg,
+          rgba(255, 255, 255, 0.78) 0%,
+          rgba(255, 255, 255, 0.28) 42%,
+          rgba(255, 255, 255, 0.52) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      box-shadow:
+        0 36px 90px -15px rgba(21, 122, 118, 0.20),
+        0 16px 36px -8px rgba(0, 0, 0, 0.08),
+        inset 0 2px 5px rgba(255, 255, 255, 1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.06),
+        inset 2px 0 4px rgba(255, 255, 255, 0.8),
+        inset -2px 0 4px rgba(255, 255, 255, 0.6);
+      -webkit-backdrop-filter: blur(28px) saturate(1.8);
+      backdrop-filter: blur(28px) saturate(1.8);
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      outline: none;
     }
 
-    .chat-bubble--out {
-      align-self: flex-end;
-      background: #E8F5E9;
-      color: #1A1A1A;
-      border-bottom-right-radius: 4px;
-      border: 1px solid rgba(76, 175, 80, 0.25);
+    /* 3D Specular Prismatic Rim Highlight */
+    .wa-phone::after {
+      content: '';
+      position: absolute;
+      inset: -1.5px;
+      border-radius: inherit;
+      padding: 1.5px;
+      background: linear-gradient(135deg,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0.45) 20%,
+          rgba(255, 255, 255, 0.05) 45%,
+          rgba(255, 255, 255, 0) 70%,
+          rgba(255, 255, 255, 0.75) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 7;
     }
 
-    .chat-bubble--in {
-      align-self: flex-start;
-      background: #FFFFFF;
-      color: #1A1A1A;
-      border-bottom-left-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
+    .wa-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 36px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: #EFEAE2;
+      position: relative;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.04),
+        inset 0 1px 2px rgba(255, 255, 255, 0.95);
     }
 
-    .vn-row {
+    .wa-screen * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Top Status Bar */
+    .wa-status {
+      background: #075E54;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+      padding: 7px 16px 4px;
+      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    .vn-play-btn {
-      width: 38px;
-      height: 38px;
+    .wa-status-time {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .wa-status-notch {
+      width: 76px;
+      height: 16px;
+      background: #000000;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7px;
+    }
+
+    .wa-status-sensor {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #141414;
+      display: block;
+    }
+
+    .wa-status-cam {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, #1e40af 0%, #000000 100%);
+      display: block;
+    }
+
+    .wa-status-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    /* WhatsApp Chat Header */
+    .wa-header {
+      background: #075E54;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 12px 8px;
+      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .wa-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .wa-back-btn {
+      display: flex;
+      align-items: center;
+      color: #FFFFFF;
+      opacity: 0.9;
+    }
+
+    .wa-header-avatar {
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       background: var(--teal);
-      color: #FFF;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .wa-header-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      line-height: 1.2;
+    }
+
+    .wa-header-name {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .wa-verified-tick {
+      width: 14px;
+      height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .wa-header-status {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .wa-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #FFFFFF;
+      opacity: 0.9;
+    }
+
+    /* Pinned Store Banner */
+    .wa-banner {
+      background: #FFFFFF;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 7px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #075E54;
+      text-align: center;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-shrink: 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .wa-live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 800;
+      font-size: 10px;
+      color: var(--terracotta);
+      background: rgba(192, 57, 43, 0.1);
+      padding: 1.5px 6px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+
+    .wa-live-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      animation: wa-live-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes wa-live-pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.4;
+        transform: scale(0.75);
+      }
+    }
+
+    .wa-banner-amt {
+      font-weight: 700;
+      color: #075E54;
+    }
+
+    /* Chat Messages Container */
+    .wa-chat {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 10px 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      scroll-behavior: smooth;
+      position: relative;
+      background-color: #EFEAE2;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+      background-size: 14px 14px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    }
+
+    .wa-chat::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .wa-chat::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .wa-chat::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 4px;
+    }
+
+    /* Message Entrance Animation */
+    @keyframes wa-pop {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .wa-msg {
+      animation: wa-pop 0.28s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+
+    /* Date Chip */
+    .wa-chip {
+      align-self: center;
+      background: #FFFFFF;
+      color: #54656F;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 7.5px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.1);
+      margin: 2px 0 4px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Owner Message Bubble */
+    .wa-msg--owner {
+      align-self: flex-end;
+      max-width: 86%;
+      background: #D9FDD3;
+      border-radius: 11px;
+      border-top-right-radius: 2px;
+      padding: 6px 8px 4px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.12);
+      position: relative;
+    }
+
+    /* Yauwa Message Row */
+    .wa-msg-row--yauwa {
+      align-self: flex-start;
+      max-width: 88%;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .wa-avatar-mini {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .wa-msg--yauwa {
+      flex: 1;
+      min-width: 0;
+      background: #FFFFFF;
+      border-radius: 11px;
+      border-top-left-radius: 2px;
+      padding: 6px 8px 4px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Voice Note Component Inside Bubble */
+    .wa-vn {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wa-vn-player {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 175px;
+    }
+
+    .wa-vn-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #075E54;
+      color: #FFFFFF;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
-      transition: transform 0.2s ease;
+      transition: transform 0.15s ease, background 0.15s ease;
+      padding: 0;
+      outline: none;
     }
 
-    .vn-play-btn:hover {
+    .wa-vn-btn:hover {
       transform: scale(1.08);
+      background: #0D5855;
     }
 
-    .vn-waves {
+    .wa-msg-row--yauwa .wa-vn-btn {
+      background: var(--teal);
+    }
+
+    .wa-msg-row--yauwa .wa-vn-btn:hover {
+      background: var(--teal-dark);
+    }
+
+    .wa-wave {
+      flex: 1;
+      height: 22px;
       display: flex;
       align-items: center;
-      gap: 3px;
-      height: 24px;
-      flex: 1;
+      gap: 2px;
+      overflow: hidden;
     }
 
-    .vn-bar {
-      width: 3px;
-      height: 8px;
+    .wa-wave-bar {
+      display: block;
+      width: 2.5px;
+      border-radius: 2px;
+      background: #8696A0;
+      flex-shrink: 0;
+      transition: background 0.1s ease;
+    }
+
+    .wa-wave-bar.is-active {
+      background: #00A884;
+    }
+
+    .wa-msg-row--yauwa .wa-wave-bar.is-active {
       background: var(--teal);
+    }
+
+    .wa-vn-dur {
+      font-size: 10px;
+      color: #667781;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+      min-width: 24px;
+      text-align: right;
+    }
+
+    .wa-lang-tag {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #075E54;
+      background: #CDEEDD;
+      border-radius: 5px;
+      padding: 1px 5px;
+      flex-shrink: 0;
+      margin-left: 2px;
+    }
+
+    .wa-msg-row--yauwa .wa-lang-tag {
+      background: rgba(21, 122, 118, 0.12);
+      color: var(--teal);
+    }
+
+    .wa-transcript {
+      font-size: 11px;
+      font-style: italic;
+      color: #667781;
+      line-height: 1.35;
+      margin-top: 4px;
+      margin-bottom: 2px;
+      word-break: break-word;
+    }
+
+    .wa-meta {
+      font-size: 9.5px;
+      color: #667781;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 3px;
+      margin-top: 1px;
+    }
+
+    .wa-ticks {
+      color: #34B7F1;
+      font-size: 11px;
+      letter-spacing: -1px;
+      font-weight: 700;
+    }
+
+    /* Quick Reply Pill Button */
+    .wa-qr-btn {
+      align-self: flex-start;
+      margin-left: 32px;
+      width: calc(88% - 32px);
+      max-width: 240px;
+      background: #FFFFFF;
+      color: #0A7CFF;
+      font-weight: 600;
+      font-size: 12.5px;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 9px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(10, 124, 255, 0.2);
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, transform 0.15s, border-color 0.25s;
+    }
+
+    .wa-qr-btn.is-tapped {
+      background: #E7F1FF;
+      color: #0056B3;
+      border-color: #0A7CFF;
+      transform: scale(0.97);
+    }
+
+    /* WhatsApp Text Card for Restock List & Daily Book */
+    .wa-card {
+      align-self: flex-start;
+      margin-left: 32px;
+      width: calc(88% - 32px);
+      max-width: 265px;
+      background: #FFFFFF;
+      border-radius: 9px;
+      border-left: 3px solid var(--teal);
+      padding: 8px 10px 5px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.1);
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: #191919;
+    }
+
+    .wa-card-title {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--teal-dark);
+      margin-bottom: 5px;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+      padding-bottom: 4px;
+    }
+
+    .wa-card-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      padding: 1.5px 0;
+      color: #333333;
+    }
+
+    .wa-card-footer {
+      margin-top: 5px;
+      border-top: 1px dashed rgba(0, 0, 0, 0.1);
+      padding-top: 4px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Bottom Input Bar */
+    .wa-input-bar {
+      background: #F0F2F5;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px 10px;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .wa-field {
+      flex: 1;
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 8px 12px;
+      font-size: 12.5px;
+      color: #8696A0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+    }
+
+    .wa-field-label {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .wa-field-icons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wa-mic-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #FFFFFF;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .wa-mic-btn:hover {
+      transform: scale(1.05);
+      background: #20BA5A;
+    }
+
+    .wa-home-bar {
+      width: 100px;
+      height: 3.5px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.25);
+      margin: 3px auto 1px;
+      flex-shrink: 0;
+    }
+
+    /* External Replay Control Button */
+    .wa-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .wa-replay-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
       border-radius: 999vw;
-      transition: height 0.3s ease;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1.5px solid rgba(25, 25, 25, 0.1);
+      color: var(--ink);
+      font-family: var(--face);
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s var(--ease-wabi), background 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s;
     }
 
-    .vn-bar.wave-anim {
-      animation: barAnim 0.8s ease-in-out infinite;
+    .wa-replay-btn:hover {
+      transform: translateY(-2px);
+      background: #FFFFFF;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+      border-color: rgba(21, 122, 118, 0.35);
+      color: var(--teal);
     }
 
-    @keyframes barAnim {
+    .wa-replay-btn:active {
+      transform: scale(0.97);
+    }
 
-      0%,
-      100% {
-        height: 6px;
+    @media (prefers-reduced-motion: reduce) {
+      .wa-msg,
+      .wa-qr-btn,
+      .wa-card {
+        animation: none !important;
       }
-
-      50% {
-        height: 22px;
+      .wa-live-dot {
+        animation: none !important;
       }
     }
 
@@ -1969,6 +2573,637 @@
       backdrop-filter: blur(4px);
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 65%);
       mask-image: linear-gradient(to bottom, transparent 0%, #000 65%);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       WhatsApp Kiosk Phone Simulation (.wa-phone-casing)
+       ═══════════════════════════════════════════════════════════════════ */
+    .wa-phone-casing {
+      width: min(365px, 100%);
+      height: clamp(560px, 78vh, 680px);
+      background: linear-gradient(155deg, #2D3035 0%, #16171A 100%);
+      border-radius: clamp(36px, 5vw, 44px);
+      padding: clamp(8px, 1.5vw, 10px);
+      box-shadow:
+        0 30px 80px -15px rgba(0, 0, 0, 0.28),
+        0 14px 28px -6px rgba(0, 0, 0, 0.14),
+        inset 0 1px 1.5px rgba(255, 255, 255, 0.25),
+        inset 0 -1.5px 2px rgba(0, 0, 0, 0.55);
+      border: 3px solid #363940;
+      box-sizing: border-box;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .wa-phone-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: clamp(28px, 4vw, 36px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: #EFEAE2;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+      -webkit-font-smoothing: antialiased;
+      user-select: text;
+    }
+
+    /* Top Status Bar */
+    .wa-status-bar {
+      background: #075E54;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 18px 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: -0.1px;
+      flex-shrink: 0;
+      z-index: 5;
+    }
+
+    .wa-status-notch {
+      width: 72px;
+      height: 13px;
+      background: #000000;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+    }
+
+    .wa-status-lens {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #111B21;
+      border: 1px solid #1F2C34;
+      display: block;
+    }
+
+    .wa-status-icons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .wa-status-net {
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+
+    /* WhatsApp Header */
+    .wa-app-header {
+      background: #075E54;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 10px 9px;
+      flex-shrink: 0;
+      z-index: 5;
+    }
+
+    .wa-header-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .wa-header-back {
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .wa-header-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .wa-header-avatar svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .wa-header-meta {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .wa-header-title-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .wa-header-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: #FFFFFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.15px;
+    }
+
+    .wa-verified-badge {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .wa-header-status {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.1;
+    }
+
+    .wa-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.9);
+      padding-right: 4px;
+    }
+
+    /* Pinned Live Banner */
+    .wa-pinned-banner {
+      background: #FFFFFF;
+      border-bottom: 1px solid #E2DCD3;
+      padding: 7px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #075E54;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      letter-spacing: 0.1px;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      z-index: 4;
+    }
+
+    .wa-banner-live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #C0392B;
+      font-weight: 800;
+      font-size: 10.5px;
+      letter-spacing: 0.4px;
+    }
+
+    .wa-banner-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #E11D48;
+      box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7);
+      animation: waPulse 1.6s infinite;
+    }
+
+    @keyframes waPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 5px rgba(225, 29, 72, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(225, 29, 72, 0);
+      }
+    }
+
+    .wa-banner-divider {
+      color: #B4B0A7;
+    }
+
+    .wa-banner-currency {
+      color: #075E54;
+      font-weight: 800;
+    }
+
+    .wa-banner-count {
+      color: #54656F;
+      font-weight: 600;
+    }
+
+    /* Chat Canvas with WhatsApp Doodle Texture */
+    .wa-chat-canvas {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 10px 10px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      position: relative;
+      background-color: #EFEAE2;
+      background-image:
+        radial-gradient(#DFD8CE 1px, transparent 1px),
+        radial-gradient(#DFD8CE 1px, #EFEAE2 1px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+    }
+
+    .wa-chat-canvas::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Date Chip */
+    .wa-date-chip {
+      align-self: center;
+      background: #FFFFFF;
+      color: #54656F;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3.5px 12px;
+      border-radius: 7px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+      margin: 2px 0 4px;
+      flex-shrink: 0;
+    }
+
+    /* Message Item Animation */
+    .wa-msg-entry {
+      animation: waBubbleIn 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes waBubbleIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Owner Message (Right, Light Green) */
+    .wa-msg-owner {
+      align-self: flex-end;
+      max-width: 86%;
+      background: #D9FDD3;
+      border-radius: 9px 9px 2px 9px;
+      padding: 6px 9px 4px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.12);
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* Yauwa Row (Left, White + Avatar) */
+    .wa-yauwa-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      align-self: flex-start;
+      max-width: 88%;
+      box-sizing: border-box;
+    }
+
+    .wa-bot-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .wa-bot-avatar svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .wa-msg-yauwa {
+      background: #FFFFFF;
+      border-radius: 9px 9px 9px 2px;
+      padding: 6px 9px 4px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.12);
+      flex: 1;
+      min-width: 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* Voice Note Player Inside Bubble */
+    .wa-vn-player {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 195px;
+    }
+
+    .wa-vn-top-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .wa-vn-play-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #075E54;
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+      padding: 0;
+      outline: none;
+    }
+
+    .wa-vn-play-btn:hover {
+      transform: scale(1.06);
+      background: #0D5855;
+    }
+
+    .wa-vn-play-btn:focus-visible {
+      box-shadow: 0 0 0 2px #34B7F1;
+    }
+
+    .wa-vn-play-btn svg {
+      display: block;
+    }
+
+    .wa-vn-waveform {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 24px;
+      flex: 1;
+    }
+
+    .wa-wave-bar {
+      width: 2.5px;
+      border-radius: 2px;
+      background: #8696A0;
+      display: block;
+      transition: background-color 0.08s ease;
+    }
+
+    .wa-wave-bar.is-played {
+      background: #075E54;
+    }
+
+    .wa-vn-info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .wa-vn-duration {
+      font-size: 10px;
+      color: #667781;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .wa-vn-lang-tag {
+      font-size: 9px;
+      font-weight: 700;
+      color: #075E54;
+      background: #CDEEDD;
+      border-radius: 5px;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    /* Transcript real text */
+    .wa-vn-transcript {
+      font-size: 11px;
+      font-style: italic;
+      color: #667781;
+      line-height: 1.35;
+      margin-top: 4px;
+      word-break: break-word;
+    }
+
+    /* Meta Row: Time & Ticks */
+    .wa-msg-meta {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 3px;
+      font-size: 10px;
+      color: #667781;
+      margin-top: 3px;
+      line-height: 1;
+    }
+
+    .wa-meta-ticks {
+      display: inline-flex;
+      align-items: center;
+      color: #34B7F1;
+    }
+
+    /* Quick Reply Button */
+    .wa-qr-container {
+      align-self: flex-start;
+      margin-left: 30px;
+      max-width: 84%;
+    }
+
+    .wa-quick-reply-btn {
+      background: #FFFFFF;
+      border: 1px solid #D0D7DE;
+      color: #007AFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 16px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+    }
+
+    .wa-quick-reply-btn.is-tapped {
+      background: #EBF3FF;
+      border-color: #007AFF;
+      color: #0056B3;
+      transform: scale(0.96);
+      box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.18);
+    }
+
+    /* Structured Summary Cards */
+    .wa-card-bubble {
+      background: #FFFFFF;
+      border-radius: 9px 9px 9px 2px;
+      padding: 7px 9px 5px;
+      box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.12);
+      font-size: 12px;
+      line-height: 1.45;
+      color: #111B21;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .wa-card-header {
+      font-weight: 700;
+      font-size: 12.5px;
+      color: #075E54;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .wa-card-content {
+      white-space: pre-line;
+      color: #1F2C34;
+      font-size: 11.5px;
+      line-height: 1.4;
+      background: #F8F9FA;
+      border-radius: 6px;
+      padding: 6px 8px;
+      border: 1px solid #EAECEF;
+    }
+
+    /* Bottom Input Dock */
+    .wa-input-dock {
+      background: #F0F2F5;
+      padding: 7px 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      flex-shrink: 0;
+      z-index: 5;
+    }
+
+    .wa-input-pill {
+      flex: 1;
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #8696A0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+    }
+
+    .wa-input-field {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .wa-attach-icon {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .wa-mic-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(37, 211, 102, 0.3);
+      cursor: pointer;
+      flex-shrink: 0;
+      border: none;
+      transition: transform 0.15s ease;
+    }
+
+    .wa-mic-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Replay Control Outside Phone */
+    .wa-replay-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+      width: 100%;
+    }
+
+    .wa-replay-btn {
+      font-family: var(--face);
+      font-size: 13px;
+      font-weight: 550;
+      color: var(--ink);
+      background: var(--paper-pure);
+      border: 1px solid var(--ink-14);
+      border-radius: 20px;
+      padding: 8px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: all 0.2s var(--ease-wabi);
+      outline: none;
+    }
+
+    .wa-replay-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(21, 122, 118, 0.12);
+    }
+
+    .wa-replay-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Prefers-reduced-motion overrides */
+    @media (prefers-reduced-motion: reduce) {
+      .wa-msg-entry {
+        animation: none !important;
+      }
+      .wa-banner-dot {
+        animation: none !important;
+      }
+      .wa-quick-reply-btn {
+        transition: none !important;
+      }
+      .wa-chat-canvas {
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
@@ -2542,49 +3777,117 @@
           <p class="sec-desc">Pin Yauwa to the top of your WhatsApp, and start recording your sales in real time.</p>
         </div>
 
-        <div class="plate" style="display: flex; justify-content: center;">
-
-          <!-- Realistic Phone Widget Board -->
-          <div
-            style="width: min(340px, 100%); background: #1C1C1E; border-radius: 44px; padding: 20px; box-shadow: 0 30px 80px rgba(0,0,0,0.18); border: 3px solid #2C2C2E;">
-            <div
-              style="display: flex; justify-content: space-between; align-items: center; color: #FFF; font-size: 12px; font-family: monospace; padding-inline: 12px; margin-bottom: 24px;">
-              <span>9:41</span>
-              <span>●●● 5G</span>
-            </div>
-
-            <!-- Widget 1: Revenue & Daily Count -->
-            <div style="background: #2C2C2E; border-radius: 22px; padding: 18px; color: #FFF; margin-bottom: 14px;">
-              <div
-                style="display: flex; justify-content: space-between; font-size: 11px; text-transform: uppercase; color: #AAA; margin-bottom: 6px;">
-                <span>Yauwa Kiosk</span>
-                <span style="color: var(--teal); font-weight: 700;">LIVE</span>
+        <div class="wa-mockup-wrapper">
+          <!-- Realistic WhatsApp Phone Mockup Frame -->
+          <div class="wa-phone" role="region" aria-label="Interactive WhatsApp simulation of Yauwa AI">
+            <div class="wa-screen">
+              <!-- Top Status Bar -->
+              <div class="wa-status" aria-hidden="true">
+                <span class="wa-status-time">10:43</span>
+                <div class="wa-status-notch">
+                  <span class="wa-status-sensor"></span>
+                  <span class="wa-status-cam"></span>
+                </div>
+                <div class="wa-status-icons">
+                  <span>5G</span>
+                  <span>● 84%</span>
+                </div>
               </div>
-              <div style="font-size: 26px; font-family: var(--face-serif); font-weight: 700; color: #FFF;">₦68,400</div>
-              <div style="font-size: 11px; color: #8E8E93; margin-top: 4px;">24 voice sales logged today</div>
-            </div>
 
-            <!-- Widget 2: Quick Voice Note Trigger -->
-            <div
-              style="background: var(--teal); border-radius: 22px; padding: 16px; color: #FFF; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
-              <div>
-                <div style="font-size: 14px; font-weight: 700;">Hold to Speak Sale</div>
-                <div style="font-size: 11px; opacity: 0.85;">Sends straight to WhatsApp</div>
-              </div>
-              <div
-                style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2"
-                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                  <line x1="12" y1="19" x2="12" y2="23" />
-                  <line x1="8" y1="23" x2="16" y2="23" />
-                </svg>
-              </div>
-            </div>
+              <!-- WhatsApp Chat Header -->
+              <div class="wa-header">
+                <div class="wa-header-left">
+                  <span class="wa-back-btn" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                  </span>
+                  <div class="wa-header-avatar" aria-hidden="true">
+                    <span>Y</span>
+                  </div>
+                  <div class="wa-header-info">
+                    <div class="wa-header-name">
+                      <span>Yauwa AI </span>
+                      <span class="wa-verified-tick" title="Verified business">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                          <circle cx="8" cy="8" r="7.5" fill="#34B7F1"/>
+                          <path d="M4.5 8L7 10.5L11.5 5.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                    </div>
+                    <span class="wa-header-status">online</span>
+                  </div>
+                </div>
 
+                <div class="wa-header-actions" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  </svg>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <circle cx="12" cy="5" r="1.5" fill="currentColor"></circle>
+                    <circle cx="12" cy="12" r="1.5" fill="currentColor"></circle>
+                    <circle cx="12" cy="19" r="1.5" fill="currentColor"></circle>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Pinned Banner -->
+              <div class="wa-banner" role="status" aria-label="Pinned store status: Live, 42,500 naira, 17 voice sales logged today">
+                <span class="wa-live-pill"><span class="wa-live-dot"></span>LIVE</span>
+                <span>·</span>
+                <span class="wa-banner-amt">₦42,500</span>
+                <span>·</span>
+                <span>17 voice sales logged today</span>
+              </div>
+
+              <!-- Internal Scrollable Chat Screen -->
+              <div class="wa-chat" id="wa-chat-body" role="log" aria-live="polite" aria-label="WhatsApp conversation messages"></div>
+
+              <!-- Bottom Input Bar -->
+              <div class="wa-input-bar">
+                <div class="wa-field">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                    <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                    <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                  </svg>
+                  <span class="wa-field-label">Hold to Speak Sale</span>
+                  <div class="wa-field-icons" aria-hidden="true">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8696A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                    </svg>
+                  </div>
+                </div>
+                <button type="button" class="wa-mic-btn" aria-label="Hold to Speak Sale">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Phone Home Indicator Bar -->
+              <div class="wa-home-bar" aria-hidden="true"></div>
+            </div>
           </div>
 
+          <!-- Replay Control (Site design system style) -->
+          <div class="wa-controls">
+            <button type="button" class="wa-replay-btn" id="wa-replay-btn" aria-label="Replay WhatsApp sales conversation">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 4v6h6"></path>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              <span>Replay Conversation</span>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -3528,6 +4831,495 @@
           }
         });
       })();
+    })();
+
+    // ── The WhatsApp You Already Use: Interactive Simulation Component ──
+    (function initWhatsAppMockup() {
+      const section = document.getElementById('sec-ios');
+      const chatContainer = document.getElementById('wa-chat-body');
+      const replayBtn = document.getElementById('wa-replay-btn');
+      if (!section || !chatContainer) return;
+
+      // Fully editable data array specifying conversation messages
+      const CONVERSATION = [
+        {
+          type: 'chip',
+          text: 'Today'
+        },
+        // 1. 7:45 AM, Hausa
+        {
+          sender: 'owner',
+          type: 'voice',
+          language: 'Hausa',
+          duration: '0:06',
+          durationSec: 6,
+          time: '7:45 AM',
+          transcript: 'Yau na samu burodi goma sha biyar da madarar Peak goma sha biyu.',
+          waveform: [8, 14, 18, 12, 22, 16, 10, 18, 20, 14, 10, 16, 22, 18, 12, 16, 20, 14, 8, 10]
+        },
+        {
+          sender: 'yauwa',
+          type: 'voice',
+          language: 'Hausa',
+          duration: '0:05',
+          durationSec: 5,
+          time: '7:45 AM',
+          transcript: 'Na rubuta kayanka: burodi goma sha biyar da madarar Peak goma sha biyu. Ina kwana, Mallam Idris!',
+          waveform: [6, 10, 16, 20, 14, 8, 18, 22, 16, 12, 20, 16, 10, 14, 18, 20, 12, 8, 14, 8]
+        },
+        // 2. 9:20 AM, Pidgin
+        {
+          sender: 'owner',
+          type: 'voice',
+          language: 'Pidgin',
+          duration: '0:04',
+          durationSec: 4,
+          time: '9:20 AM',
+          transcript: 'I don sell two bread and one Peak milk, four thousand three hundred, cash.',
+          waveform: [8, 16, 22, 14, 18, 10, 14, 20, 16, 12, 18, 22, 14, 8, 12, 18, 14, 10, 6, 8]
+        },
+        {
+          sender: 'yauwa',
+          type: 'voice',
+          language: 'Pidgin',
+          duration: '0:05',
+          durationSec: 5,
+          time: '9:20 AM',
+          transcript: 'I don write am: four thousand three hundred naira, cash. Bread remain thirteen, Peak milk remain eleven.',
+          waveform: [6, 12, 18, 22, 14, 10, 16, 20, 12, 18, 22, 16, 10, 14, 20, 16, 12, 8, 10, 6]
+        },
+        // 3. 11:05 AM, Yoruba
+        {
+          sender: 'owner',
+          type: 'voice',
+          language: 'Yoruba',
+          duration: '0:05',
+          durationSec: 5,
+          time: '11:05 AM',
+          transcript: 'Baba Seun gba búrẹ́dì àti Indomie, ó ní òun á san lọ́la, ẹgbẹ̀rún mẹ́ta àti ààbọ̀.',
+          waveform: [10, 16, 20, 12, 18, 22, 14, 8, 16, 22, 18, 12, 20, 16, 10, 14, 18, 12, 8, 6]
+        },
+        {
+          sender: 'yauwa',
+          type: 'voice',
+          language: 'Yoruba',
+          duration: '0:06',
+          durationSec: 6,
+          time: '11:05 AM',
+          transcript: 'Mo ti kọ ọ́ sílẹ̀: Baba Seun jẹ ọ́ ní ẹgbẹ̀rún mẹ́ta àti ààbọ̀ náírà. Màá rán ọ létí lọ́la.',
+          waveform: [8, 12, 18, 14, 22, 16, 10, 20, 16, 12, 18, 22, 14, 8, 16, 20, 14, 10, 6, 8]
+        },
+        // 4. 1:30 PM, Pidgin
+        {
+          sender: 'owner',
+          type: 'voice',
+          language: 'Pidgin',
+          duration: '0:04',
+          durationSec: 4,
+          time: '1:30 PM',
+          transcript: 'Ada don send fourteen thousand five hundred transfer for the milk carton.',
+          waveform: [8, 14, 22, 18, 12, 16, 20, 14, 10, 18, 22, 14, 8, 12, 16, 20, 12, 8, 6, 8]
+        },
+        {
+          sender: 'yauwa',
+          type: 'voice',
+          language: 'Pidgin',
+          duration: '0:04',
+          durationSec: 4,
+          time: '1:30 PM',
+          transcript: 'I don log am: fourteen thousand five hundred naira, bank transfer.',
+          waveform: [6, 12, 16, 22, 18, 10, 14, 20, 16, 12, 18, 22, 14, 8, 10, 16, 12, 8, 6, 6]
+        },
+        // 5. 4:10 PM, Pidgin
+        {
+          sender: 'yauwa',
+          type: 'voice',
+          language: 'Pidgin',
+          duration: '0:04',
+          durationSec: 4,
+          time: '4:10 PM',
+          transcript: 'Mallam Idris, bread don dey finish o! Three loaf remain for kiosk.',
+          waveform: [8, 16, 20, 14, 18, 22, 12, 16, 20, 14, 10, 18, 22, 16, 12, 14, 18, 10, 6, 6]
+        },
+        {
+          sender: 'owner',
+          type: 'quick_reply',
+          time: '4:10 PM',
+          text: 'Add to Restock List'
+        },
+        {
+          sender: 'yauwa',
+          type: 'voice',
+          language: 'Pidgin',
+          duration: '0:08',
+          durationSec: 8,
+          time: '4:10 PM',
+          transcript: 'I don add am to your market list. Bread fifteen, Cabin biscuits two carton, pure water ten bags. Everything na forty-six thousand, five hundred naira.',
+          waveform: [6, 10, 16, 22, 14, 18, 20, 12, 16, 22, 18, 14, 20, 16, 10, 14, 22, 18, 12, 8]
+        },
+        {
+          sender: 'yauwa',
+          type: 'card',
+          time: '4:10 PM',
+          title: '🛒 Market Restock list',
+          items: [
+            { name: 'Sliced Bread, 15 loaves', amount: '₦24,000' },
+            { name: 'Cabin Biscuits, 2 cartons', amount: '₦18,000' },
+            { name: 'Pure Water, 10 bags', amount: '₦4,500' }
+          ],
+          footer: 'Estimated total: ₦46,500',
+          text: '🛒 Market Restock list / Sliced Bread, 15 loaves · ₦24,000 / Cabin Biscuits, 2 cartons · ₦18,000 / Pure Water, 10 bags · ₦4,500 / Estimated total: ₦46,500'
+        },
+        // 6. 8:00 PM, English
+        {
+          sender: 'owner',
+          type: 'voice',
+          language: 'English',
+          duration: '0:03',
+          durationSec: 3,
+          time: '8:00 PM',
+          transcript: 'Yauwa, how was the market today?',
+          waveform: [8, 14, 20, 16, 22, 18, 12, 16, 22, 14, 10, 16, 20, 14, 8, 12, 18, 12, 8, 6]
+        },
+        {
+          sender: 'yauwa',
+          type: 'voice',
+          language: 'English',
+          duration: '0:12',
+          durationSec: 12,
+          time: '8:00 PM',
+          transcript: 'Good evening, Mallam Idris. Today you sold forty-two thousand five hundred naira. Twenty-eight thousand in cash and fourteen thousand five hundred by transfer. Baba Seun owes you three thousand five hundred. Your book is balanced.',
+          waveform: [6, 12, 18, 22, 16, 10, 14, 20, 16, 12, 18, 22, 14, 20, 16, 10, 14, 22, 18, 12]
+        },
+        {
+          sender: 'yauwa',
+          type: 'card',
+          time: '8:00 PM',
+          title: " Today's book",
+          items: [
+            { name: 'Total spoken sales', amount: '₦42,500' },
+            { name: 'Cash collected', amount: '₦28,000' },
+            { name: 'Bank transfer', amount: '₦14,500' },
+            { name: 'Owed to you', amount: '₦3,500 (Baba Seun)' }
+          ],
+          footer: 'Book balanced.',
+          text: " Today's book / Total spoken sales: ₦42,500 / Cash collected: ₦28,000 / Bank transfer: ₦14,500 / Owed to you: ₦3,500 (Baba Seun) / Book balanced."
+        }
+      ];
+
+      let activeAudio = null;
+      let isRunning = false;
+      let currentStepIndex = 0;
+      let stepTimeout = null;
+      let remainingStepDelay = 0;
+      let stepStartTime = 0;
+
+      // Stop any active waveform progress animation
+      function stopActiveVoiceNote() {
+        if (activeAudio) {
+          if (activeAudio.animId) cancelAnimationFrame(activeAudio.animId);
+          if (activeAudio.btn) {
+            activeAudio.btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+            activeAudio.btn.setAttribute('aria-label', activeAudio.origAriaLabel);
+          }
+          if (activeAudio.bars) {
+            activeAudio.bars.forEach(b => b.classList.remove('is-active'));
+          }
+          if (activeAudio.durEl) {
+            activeAudio.durEl.textContent = activeAudio.origDur;
+          }
+          activeAudio = null;
+        }
+      }
+
+      // Voice note waveform animation on play tap (no actual audio file needed)
+      function handleVoiceNotePlay(btn) {
+        const bubble = btn.closest('.wa-msg') || btn.closest('.wa-msg-row--yauwa');
+        if (!bubble) return;
+
+        if (activeAudio && activeAudio.btn === btn) {
+          stopActiveVoiceNote();
+          return;
+        }
+
+        stopActiveVoiceNote();
+
+        const durationSec = parseFloat(btn.dataset.durationSec) || 5;
+        const durEl = bubble.querySelector('.wa-vn-dur');
+        const bars = Array.from(bubble.querySelectorAll('.wa-wave-bar'));
+        const origDur = durEl ? durEl.textContent : '0:05';
+        const origAriaLabel = btn.getAttribute('aria-label') || 'Play voice note';
+
+        btn.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+        btn.setAttribute('aria-label', origAriaLabel.replace(/^Play/, 'Pause'));
+
+        const startTime = performance.now();
+        const durationMs = durationSec * 1000;
+
+        activeAudio = {
+          btn,
+          durEl,
+          bars,
+          origDur,
+          origAriaLabel,
+          animId: null
+        };
+
+        function step(now) {
+          if (!activeAudio || activeAudio.btn !== btn) return;
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / durationMs, 1);
+          const activeCount = Math.floor(progress * bars.length);
+
+          bars.forEach((bar, idx) => {
+            if (idx < activeCount) {
+              bar.classList.add('is-active');
+            } else {
+              bar.classList.remove('is-active');
+            }
+          });
+
+          if (durEl) {
+            const curSec = Math.floor(progress * durationSec);
+            durEl.textContent = `0:${curSec < 10 ? '0' : ''}${curSec}`;
+          }
+
+          if (progress < 1) {
+            activeAudio.animId = requestAnimationFrame(step);
+          } else {
+            setTimeout(() => {
+              stopActiveVoiceNote();
+            }, 300);
+          }
+        }
+
+        activeAudio.animId = requestAnimationFrame(step);
+      }
+
+      // Construct DOM message element matching WhatsApp standards
+      function createMessageElement(item, index) {
+        if (item.type === 'chip') {
+          const chip = document.createElement('div');
+          chip.className = 'wa-chip wa-msg';
+          chip.textContent = item.text;
+          return chip;
+        }
+
+        if (item.type === 'quick_reply') {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'wa-qr-btn wa-msg';
+          btn.textContent = item.text;
+          btn.id = `wa-qr-${index}`;
+          btn.setAttribute('aria-label', `${item.text} button`);
+          return btn;
+        }
+
+        if (item.type === 'card') {
+          const card = document.createElement('div');
+          card.className = 'wa-card wa-msg';
+          card.setAttribute('role', 'article');
+          card.setAttribute('aria-label', item.title);
+
+          let html = `<div class="wa-card-title">${item.title}</div>`;
+          item.items.forEach(it => {
+            html += `<div class="wa-card-item"><span>${it.name}</span><strong>${it.amount}</strong></div>`;
+          });
+          html += `<div class="wa-card-footer"><span>Summary</span><span>${item.footer}</span></div>`;
+          html += `<div class="wa-meta"><span>${item.time}</span></div>`;
+          card.innerHTML = html;
+          return card;
+        }
+
+        if (item.type === 'voice') {
+          const isOwner = item.sender === 'owner';
+          const durationSeconds = item.durationSec || 5;
+          const ariaLabel = `Voice note, ${durationSeconds} seconds, ${item.language}`;
+
+          // Predefined fixed waveform bars
+          const waveBarsHtml = (item.waveform || []).map(h => `<i class="wa-wave-bar" style="height:${h}px"></i>`).join('');
+
+          const bubbleInner = `
+            <div class="wa-vn">
+              <div class="wa-vn-player">
+                <button type="button" class="wa-vn-btn" data-duration-sec="${durationSeconds}" aria-label="Play ${ariaLabel}" title="Play voice note">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                </button>
+                <div class="wa-wave" aria-hidden="true">${waveBarsHtml}</div>
+                <span class="wa-vn-dur">${item.duration}</span>
+                <span class="wa-lang-tag">${item.language}</span>
+              </div>
+              <p class="wa-transcript">${item.transcript}</p>
+              <div class="wa-meta">
+                <span>${item.time}</span>
+                ${isOwner ? '<span class="wa-ticks" aria-label="Read">✓✓</span>' : ''}
+              </div>
+            </div>
+          `;
+
+          let wrap;
+          if (isOwner) {
+            wrap = document.createElement('div');
+            wrap.className = 'wa-msg wa-msg--owner';
+            wrap.setAttribute('role', 'region');
+            wrap.setAttribute('aria-label', ariaLabel);
+            wrap.innerHTML = bubbleInner;
+          } else {
+            wrap = document.createElement('div');
+            wrap.className = 'wa-msg-row--yauwa wa-msg';
+            wrap.setAttribute('role', 'region');
+            wrap.setAttribute('aria-label', ariaLabel);
+            wrap.innerHTML = `
+              <div class="wa-avatar-mini" aria-hidden="true">Y</div>
+              <div class="wa-msg--yauwa">${bubbleInner}</div>
+            `;
+          }
+
+          const playBtn = wrap.querySelector('.wa-vn-btn');
+          if (playBtn) {
+            playBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              handleVoiceNotePlay(playBtn);
+            });
+          }
+
+          return wrap;
+        }
+
+        return null;
+      }
+
+      function scheduleNextStep(delay) {
+        remainingStepDelay = delay;
+        stepStartTime = performance.now();
+        stepTimeout = setTimeout(() => {
+          runStep();
+        }, delay);
+      }
+
+      function runStep() {
+        if (currentStepIndex >= CONVERSATION.length) {
+          isRunning = false;
+          return;
+        }
+
+        const item = CONVERSATION[currentStepIndex];
+        const el = createMessageElement(item, currentStepIndex);
+        if (el) {
+          chatContainer.appendChild(el);
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Special behavior for quick-reply: auto-tap itself after brief pause
+        if (item.type === 'quick_reply') {
+          const qrBtn = el;
+          setTimeout(() => {
+            if (qrBtn) {
+              qrBtn.classList.add('is-tapped');
+              qrBtn.textContent = '✓ Added to Restock List';
+            }
+          }, 950);
+        }
+
+        currentStepIndex++;
+
+        if (currentStepIndex < CONVERSATION.length) {
+          let nextDelay = 1400;
+          if (item.type === 'chip') nextDelay = 700;
+          else if (item.type === 'quick_reply') nextDelay = 1800;
+          else if (item.type === 'card') nextDelay = 1600;
+
+          scheduleNextStep(nextDelay);
+        } else {
+          isRunning = false;
+        }
+      }
+
+      function startOrResume() {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+          renderAllInstant();
+          return;
+        }
+
+        if (!isRunning && currentStepIndex === 0) {
+          isRunning = true;
+          scheduleNextStep(300);
+        } else if (!isRunning && currentStepIndex < CONVERSATION.length && remainingStepDelay > 0) {
+          isRunning = true;
+          stepStartTime = performance.now();
+          stepTimeout = setTimeout(() => {
+            runStep();
+          }, remainingStepDelay);
+        }
+      }
+
+      function pause() {
+        if (isRunning && stepTimeout) {
+          clearTimeout(stepTimeout);
+          stepTimeout = null;
+          const elapsed = performance.now() - stepStartTime;
+          remainingStepDelay = Math.max(0, remainingStepDelay - elapsed);
+          isRunning = false;
+        }
+      }
+
+      function renderAllInstant() {
+        clearTimeout(stepTimeout);
+        stepTimeout = null;
+        stopActiveVoiceNote();
+        chatContainer.innerHTML = '';
+        CONVERSATION.forEach((item, idx) => {
+          const el = createMessageElement(item, idx);
+          if (el) {
+            if (item.type === 'quick_reply') {
+              el.classList.add('is-tapped');
+              el.textContent = '✓ Added to Restock List';
+            }
+            chatContainer.appendChild(el);
+          }
+        });
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        currentStepIndex = CONVERSATION.length;
+        isRunning = false;
+      }
+
+      function replay() {
+        clearTimeout(stepTimeout);
+        stepTimeout = null;
+        stopActiveVoiceNote();
+        chatContainer.innerHTML = '';
+        currentStepIndex = 0;
+        remainingStepDelay = 0;
+        isRunning = true;
+        scheduleNextStep(200);
+      }
+
+      if (replayBtn) {
+        replayBtn.addEventListener('click', () => {
+          replay();
+        });
+      }
+
+      // IntersectionObserver: trigger only when section enters viewport, pause when scrolled away
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              startOrResume();
+            } else {
+              pause();
+            }
+          });
+        }, {
+          threshold: 0.2
+        });
+        observer.observe(section);
+      } else {
+        startOrResume();
+      }
     })();
   </script>
 
